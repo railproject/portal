@@ -87,6 +87,7 @@
                     </button>
                     <ul class="dropdown-menu" role="menu">
                         <li><a href="#"><i class="fa fa-cog"></i>修改密码</a></li>
+                        <li><a href="${ctx}/login"><i class="fa fa-cog"></i>切换用户</a></li>
                         <li class="divider"></li>
                         <li><a href="${ctx}/logout"><i class="fa fa-sign-out"></i> 退 出</a></li>
                     </ul>
