@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace必须指向Dao接口 -->
+<mapper namespace="org.railway.com.portal.repository.mybatis.UnitCrossTrainDao">
+
+    <resultMap id="unitCrossTrain" type="org.railway.com.portal.entity.UnitCrossTrain">
+        <id column="UNIT_CROSS_TRAIN_ID" property="unitCrossTrainId"/>
+        <result column="UNIT_CROSS_ID" property="unitCrossId"/>
+        <result column="GROUP_SERIAL_NBR" property="groupSerialNbr"/>
+        <result column="GROUP_GAP" property="groupGap"/>
+        <result column="MARSHALLING_NAME" property="marshallingName"/>
+        <result column="TRAIN_SORT" property="trainSort"/>
+        <result column="TRAIN_NBR" property="trainNbr"/>
+        <result column="BASE_TRAIN_ID" property="baseTrainId"/>
+        <result column="START_STN" property="startStn"/>
+        <result column="START_BUREAU" property="startBureauCode"/>
+        <result column="END_STN" property="endStn"/>
+        <result column="END_BUREAU" property="endBureauCode"/>
+        <result column="DAY_GAP" property="dayGap"/>
+        <result column="ALTERNATE_TRAIN_NBR" property="alternateTrainNbr"/>
+        <result column="ALTERNATE_TIME" property="alternateDateTime"/>
+        <result column="SPARE_FLAG" property="spareFlag"/>
+        <result column="SPARE_APPLY_FLAG" property="spareApplyFlag"/>
+        <result column="HIGHLINE_FLAG" property="highLineFlag"/>
+        <result column="HIGHLINE_RULE" property="highLineRule"/>
+        <result column="COMMONLINE_RULE" property="commonLineRule"/>
+        <result column="APPOINT_WEEK" property="appointWeek"/>
+        <result column="APPOINT_DAY" property="appointDay"/>
+        <result column="RUN_DATE" property="runDate"/>
+        <result column="END_DATE" property="endDate"/>
+        <!--<association property="unitCross" resultMap="org.railway.com.portalpository.mybatis.UnitCrossDao.unitCross"/>-->
+    </resultMap>
+</mapper> 

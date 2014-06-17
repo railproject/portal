@@ -1,0 +1,343 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace必须指向Dao接口 -->
+<mapper namespace="trainInfoDao"> 
+
+    <select id="getTrainsAndTimesCount" parameterType="map" resultType="map">
+   select count(*) as count
+  from
+  (
+  
+   select t1.*, t2.*
+  from (SELECT t.parent_id as BASE_TRAIN_ID1,
+               t.parent_name as TRAIN_NBR,
+               T.CHILD_INDEX AS STN_SORT,
+               T.NAME AS STN_NAME,
+               T.Bureau_Shortname AS STN_BUREAU,
+               T.Bureau_Name as STN_BUREAU_FULL,
+               TO_CHAR(T.TIME, 'hh24:mi:SS') AS ARR_TIME,
+               TO_CHAR(T.TIME, 'hh24:mi:SS') AS DPT_TIME,
+               0 as run_days,
+               T.TRACK_NAME AS TRACK_NAME
+          FROM JHPT_RJH.M_TRAINLINETEMP_SCHEDULE_SITEM T
+        UNION all
+        SELECT t.parent_id,
+               t.parent_name as TRAIN_NBR,
+               T.CHILD_INDEX AS STN_SORT,
+               T.NAME AS STN_NAME,
+               T.Bureau_Shortname AS STN_BUREAU,
+               T.Bureau_Name as STN_BUREAU_FULL,
+               TO_CHAR(T.SOURCE_TIME, 'hh24:mi:SS') AS ARR_TIME,
+               TO_CHAR(T.TARGET_TIME, 'hh24:mi:SS') AS DPT_TIME,
+               t.relative_source_time_day run_days,
+               T.TRACK_NAME AS TRACK_NAME
+          FROM JHPT_RJH.M_TRAINLINETEMP_SCHEDULE_RITEM T
+        UNION all
+        SELECT t.parent_id,
+               t.parent_name as TRAIN_NBR,
+               T.CHILD_INDEX AS STN_SORT,
+               T.NAME AS STN_NAME,
+               T.Bureau_Shortname AS STN_BUREAU,
+               T.Bureau_Name as STN_BUREAU_FULL,
+               TO_CHAR(T.TIME, 'hh24:mi:SS') AS ARR_TIME,
+               TO_CHAR(T.TIME, 'hh24:mi:SS') AS DPT_TIME,
+               t.relative_time_day run_days,
+               T.TRACK_NAME AS TRACK_NAME
+          FROM JHPT_RJH.M_TRAINLINETEMP_SCHEDULE_TITEM T) t2,
+       (select t.id BASE_TRAIN_ID,
+               t.Source_Bureau_Name START_BUREAU_FULL,
+               t.source_bureau_shortname START_BUREAU,
+               t.source_node_name START_STN,
+               t.target_bureau_name END_BUREAU_FULL,
+               t.target_bureau_shortname END_BUREAU,
+               t.target_node_name END_STN,
+               TO_CHAR(T.Source_Time, 'hh24:mi:SS') START_TIME,
+               TO_CHAR(t.target_time, 'hh24:mi:SS') END_TIME,
+               t.route_bureau_shortnames PASS_BUREAU,
+               t.relative_target_time_day run_days_all,
+               t.type_id TRAIN_TYPE_ID
+          from JHPT_RJH.m_trainlinetemp t
+         where t.scheme_id = #{chartId}
+           and t.operation =  #{operation}) t1
+ where t1.BASE_TRAIN_ID = t2.BASE_TRAIN_ID1
+ order by t1.BASE_TRAIN_ID, STN_SORT
+  )
+    </select>
+    
+    
+    <select id="getTrainsAndTimesForPage" parameterType="map" resultType="map">
+     
+ select * from (
+  select t1.*, t2.*
+  from (SELECT t.parent_id as BASE_TRAIN_ID1,
+               t.parent_name as TRAIN_NBR,
+               T.CHILD_INDEX AS STN_SORT,
+               T.NAME AS STN_NAME,
+               T.Bureau_Shortname AS STN_BUREAU,
+               T.Bureau_Name as STN_BUREAU_FULL,
+               TO_CHAR(T.TIME, 'hh24:mi:SS') AS ARR_TIME,
+               TO_CHAR(T.TIME, 'hh24:mi:SS') AS DPT_TIME,
+               0 as run_days,
+               T.TRACK_NAME AS TRACK_NAME
+          FROM JHPT_RJH.M_TRAINLINETEMP_SCHEDULE_SITEM T
+        UNION all
+        SELECT t.parent_id,
+               t.parent_name as TRAIN_NBR,
+               T.CHILD_INDEX AS STN_SORT,
+               T.NAME AS STN_NAME,
+               T.Bureau_Shortname AS STN_BUREAU,
+               T.Bureau_Name as STN_BUREAU_FULL,
+               TO_CHAR(T.SOURCE_TIME, 'hh24:mi:SS') AS ARR_TIME,
+               TO_CHAR(T.TARGET_TIME, 'hh24:mi:SS') AS DPT_TIME,
+               t.relative_source_time_day run_days,
+               T.TRACK_NAME AS TRACK_NAME
+          FROM JHPT_RJH.M_TRAINLINETEMP_SCHEDULE_RITEM T
+        UNION all
+        SELECT t.parent_id,
+               t.parent_name as TRAIN_NBR,
+               T.CHILD_INDEX AS STN_SORT,
+               T.NAME AS STN_NAME,
+               T.Bureau_Shortname AS STN_BUREAU,
+               T.Bureau_Name as STN_BUREAU_FULL,
+               TO_CHAR(T.TIME, 'hh24:mi:SS') AS ARR_TIME,
+               TO_CHAR(T.TIME, 'hh24:mi:SS') AS DPT_TIME,
+               t.relative_time_day run_days,
+               T.TRACK_NAME AS TRACK_NAME
+          FROM JHPT_RJH.M_TRAINLINETEMP_SCHEDULE_TITEM T) t2,
+       (select t.id BASE_TRAIN_ID,
+               t.Source_Bureau_Name START_BUREAU_FULL,
+               t.source_bureau_shortname START_BUREAU,
+               t.source_node_name START_STN,
+               t.target_bureau_name END_BUREAU_FULL,
+               t.target_bureau_shortname END_BUREAU,
+               t.target_node_name END_STN,
+               TO_CHAR(T.Source_Time, 'hh24:mi:SS') START_TIME,
+               TO_CHAR(t.target_time, 'hh24:mi:SS') END_TIME,
+               t.route_bureau_shortnames PASS_BUREAU,
+               t.relative_target_time_day run_days_all,
+               t.type_id TRAIN_TYPE_ID
+          from JHPT_RJH.m_trainlinetemp t
+         where t.scheme_id = #{chartId}
+           and t.operation = #{operation}) t1
+ where t1.BASE_TRAIN_ID = t2.BASE_TRAIN_ID1
+ order by t1.BASE_TRAIN_ID, STN_SORT
+ ) A,
+  
+ (select BASE_TRAIN_ID from 
+ (select ROWNUM AS num, BASE_TRAIN_ID  from  
+   ( select id as BASE_TRAIN_ID from jhpt_rjh.m_trainlinetemp t where 1=1  
+	AND t.scheme_id = #{chartId}
+        AND t.operation = #{operation}
+    ) 
+ ) where num >=#{rownumstart} AND num &lt;=#{rownumend}
+ ) B
+
+ where A.BASE_TRAIN_ID1 = B.BASE_TRAIN_ID order by B.BASE_TRAIN_ID,A.stn_sort
+    
+    </select>
+
+	<select id="getTrainInfoTotalCount" parameterType="map" resultType="map">
+	  select count(*) as count from jhpt_rjh.m_trainlinetemp t where 1=1  AND t.scheme_id = #{chartId}
+	  	<if test="operation != null">
+			AND t.operation =#{operation}
+		</if>
+	 	<if test="trainNbr != null and fuzzyFlag == 1">
+			AND t.name like '%' || #{trainNbr} || '%'
+		</if>
+		<if test="trainNbr != null and fuzzyFlag == 0">
+			AND t.name = #{trainNbr} 
+		</if>
+		<if test="startBureauShortName != null">
+		   AND t.source_bureau_shortname = #{startBureauShortName}
+		</if> 
+		<if test="endBureauShortName != null">
+		   AND t.target_bureau_shortname = #{endBureauShortName}
+		</if>
+	</select>
+	
+	<select id="getTrainInfoForTrainId" parameterType="string" resultType="org.railway.com.portal.service.dto.TrainlineTemplateDto">
+	 select id as planTrainId,
+	 name as TrainNbr,
+	 source_bureau_name as StartBureauFull,
+	 target_bureau_name as EndBureauFull,
+	 source_node_name as StartStn,
+	 target_node_name as EndStn,
+	 relative_target_time_day as rundays,
+	 TO_CHAR(source_time, 'hh24:mi:SS')  as StartTime,
+	 TO_CHAR(target_time, 'hh24:mi:SS')  as EndTime
+	 
+	 from  JHPT_RJH.m_trainlinetemp where id=#{baseTrainId}
+		
+	</select>
+	
+	<select id="getStartEndTrainTimeInfoForTrainId" parameterType="string" resultType="org.railway.com.portal.service.dto.TrainlineTemplateSubDto">
+	    select T1.BASE_TRAIN_ID planTrainId,
+		T1.TRAIN_NBR	TRAINNBR,
+		T1.STN_SORT		childIndex,
+		T1.STN_NAME		name,
+		T1.STN_BUREAU	bureauShortName,
+		T1.STN_BUREAU_FULL	STNBUREAUFULL,
+		T1.ARR_TIME		sourceTime,
+		T1.DPT_TIME		targetTime,
+		T1.run_days		rundays,
+		T1.TRACK_NAME	TRACKNAME
+  from (SELECT t.parent_id      BASE_TRAIN_ID,
+               t.parent_name    TRAIN_NBR,
+               T.CHILD_INDEX    STN_SORT,
+               T.NAME           STN_NAME,
+               T.Bureau_Shortname STN_BUREAU,
+               T.Bureau_Name    STN_BUREAU_FULL,
+               TO_CHAR(T.TIME, 'hh24:mi:SS')  ARR_TIME,
+               TO_CHAR(T.TIME, 'hh24:mi:SS')  DPT_TIME,
+               0                run_days,
+               T.TRACK_NAME     
+          FROM JHPT_RJH.M_TRAINLINETEMP_SCHEDULE_SITEM T
+        WHERE t.parent_id = #{baseTrainId}
+      
+        UNION ALL
+        SELECT t.parent_id      BASE_TRAIN_ID,
+               t.parent_name    TRAIN_NBR,
+               T.CHILD_INDEX    STN_SORT,
+               T.NAME           STN_NAME,
+               T.Bureau_Shortname STN_BUREAU,
+               T.Bureau_Name    STN_BUREAU_FULL,
+               TO_CHAR(T.TIME, 'hh24:mi:SS')  ARR_TIME,
+               TO_CHAR(T.TIME, 'hh24:mi:SS')  DPT_TIME,
+               t.relative_time_day run_days,
+               T.TRACK_NAME     
+          FROM JHPT_RJH.M_TRAINLINETEMP_SCHEDULE_TITEM T
+        WHERE t.parent_id = #{baseTrainId}
+          
+          ) T1
+       
+ order by T1.STN_SORT
+ 
+ 
+	
+	</select>
+	<select id="getTrainTimeInfoForTrainId" parameterType="string" resultType="org.railway.com.portal.service.dto.TrainlineTemplateSubDto">
+	
+	select T1.BASE_TRAIN_ID planTrainId,
+		T1.TRAIN_NBR	TRAINNBR,
+		T1.STN_SORT		childIndex,
+		T1.STN_NAME		name,
+		T1.STN_BUREAU	bureauShortName,
+		T1.STN_BUREAU_FULL	STNBUREAUFULL,
+		T1.ARR_TIME		sourceTime,
+		T1.DPT_TIME		targetTime,
+		T1.run_days		rundays,
+		T1.TRACK_NAME	TRACKNAME
+  from (SELECT t.parent_id      BASE_TRAIN_ID,
+               t.parent_name    TRAIN_NBR,
+               T.CHILD_INDEX    STN_SORT,
+               T.NAME           STN_NAME,
+               T.Bureau_Shortname STN_BUREAU,
+               T.Bureau_Name    STN_BUREAU_FULL,
+               TO_CHAR(T.TIME, 'hh24:mi:SS')  ARR_TIME,
+               TO_CHAR(T.TIME, 'hh24:mi:SS')  DPT_TIME,
+               0                run_days,
+               T.TRACK_NAME     
+          FROM JHPT_RJH.M_TRAINLINETEMP_SCHEDULE_SITEM T
+        WHERE t.parent_id = #{baseTrainId}
+        UNION ALL
+        SELECT t.parent_id      BASE_TRAIN_ID,
+               t.parent_name    TRAIN_NBR,
+               T.CHILD_INDEX    STN_SORT,
+               T.NAME           STN_NAME,
+               T.Bureau_Shortname STN_BUREAU,
+               T.Bureau_Name      STN_BUREAU_FULL,
+               TO_CHAR(T.SOURCE_TIME, 'hh24:mi:SS') ARR_TIME,
+               TO_CHAR(T.TARGET_TIME, 'hh24:mi:SS') DPT_TIME,
+               t.relative_source_time_day run_days,
+               T.TRACK_NAME     
+          FROM JHPT_RJH.M_TRAINLINETEMP_SCHEDULE_RITEM T
+        WHERE t.parent_id = #{baseTrainId}
+        UNION ALL
+        SELECT t.parent_id      BASE_TRAIN_ID,
+               t.parent_name    TRAIN_NBR,
+               T.CHILD_INDEX    STN_SORT,
+               T.NAME           STN_NAME,
+               T.Bureau_Shortname STN_BUREAU,
+               T.Bureau_Name    STN_BUREAU_FULL,
+               TO_CHAR(T.TIME, 'hh24:mi:SS')  ARR_TIME,
+               TO_CHAR(T.TIME, 'hh24:mi:SS')  DPT_TIME,
+               t.relative_time_day run_days,
+               T.TRACK_NAME     
+          FROM JHPT_RJH.M_TRAINLINETEMP_SCHEDULE_TITEM T
+        WHERE t.parent_id = #{baseTrainId}
+          
+          ) T1
+       
+ order by T1.STN_SORT
+	
+	</select>
+	<select id="getTrainInfo"  parameterType="map" resultType="org.railway.com.portal.entity.PlanTrain">
+	    select id as planTrainId,
+	    name as trainNbr,
+        source_node_name as startStn, 
+        target_node_name as endStn,
+        source_bureau_shortname as startBureauShortName, 
+        target_bureau_shortname as endBureau,
+        route_bureau_shortnames as routingBureauShortName,
+        relative_target_time_day as relativeTargetTimeDay,
+        source_bureau_name as startBureauFull,
+        target_bureau_name as endBureauFull,
+        to_char(source_time,'hh24:mi:ss') as startTimeStr,
+        to_char(target_time,'hh24:mi:ss')  as endTimeStr,
+        operation as operation
+        from jhpt_rjh.m_trainlinetemp t where 1=1  AND t.scheme_id = #{chartId}
+    	<if test="trainNbr != null">
+			AND t.name= #{trainNbr}
+		</if>
+		<if test="operation != null">
+			AND t.operation= #{operation}
+		</if>
+		<if test="startBureau != null">
+		   AND t.source_bureau_shortname = #{startBureauShortName}
+		</if> 
+		<if test="startBureau != null">
+		   AND t.target_bureau_shortname = #{endBureauShortName}
+		</if>
+		   order by trainNbr
+	</select>
+	
+	<select id="getTrainInfoForPage"  parameterType="map" resultType="org.railway.com.portal.entity.PlanTrain">
+	    select * from (select ROWNUM AS num, m.*  from  
+	    ( 
+		select id as planTrainId,
+		name as trainNbr,
+        source_node_name as startStn, 
+        target_node_name as endStn,
+        source_bureau_shortname as startBureau, 
+        target_bureau_shortname as endBureau,
+        route_bureau_shortnames as routingBureauShortName,
+        relative_target_time_day as relativeTargetTimeDay,
+        source_bureau_name as startBureauFull,
+        target_bureau_name as endBureauFull,
+        to_char(source_time,'hh24:mi:ss') as startTimeStr,
+        to_char(target_time,'hh24:mi:ss')  as endTimeStr,
+        operation as operation
+        from jhpt_rjh.m_trainlinetemp t where 1=1  AND t.scheme_id = #{chartId}
+        <if test="operation != null">
+			AND t.operation = #{operation} 
+		</if>
+    	<if test="trainNbr != null and fuzzyFlag == 1">
+			AND t.name like '%' || #{trainNbr} || '%'
+		</if>
+		<if test="trainNbr != null and fuzzyFlag == 0">
+			AND t.name = #{trainNbr} 
+		</if>
+		<if test="startBureauShortName != null">
+		   AND t.source_bureau_shortname = #{startBureauShortName}
+		</if> 
+		<if test="endBureauShortName != null">
+		   AND t.target_bureau_shortname = #{endBureauShortName}
+		</if>
+		   order by trainNbr
+		 ) m  ) where num >=#{rownumstart} AND num &lt;=#{rownumend} 
+		
+	</select>
+	
+
+</mapper>

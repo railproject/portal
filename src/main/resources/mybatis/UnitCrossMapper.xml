@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace必须指向Dao接口 -->
+<mapper namespace="org.railway.com.portal.repository.mybatis.UnitCrossDao">
+
+    <resultMap id="unitCross" type="org.railway.com.portal.entity.UnitCross">
+        <id column="UNIT_CROSS_ID" property="unitCrossId"/>
+        <collection property="unitCrossTrainList" resultMap="org.railway.com.portal.repository.mybatis.UnitCrossTrainDao.unitCrossTrain"/>
+    </resultMap>
+
+    <resultMap id="planCross" type="org.railway.com.portal.entity.PlanCross">
+        <id column="UNIT_CROSS_ID" property="unitCrossId"/>
+        <result column="GROUP_TOTAL_NBR" property="groupTotalNbr"/>
+        <result column="PLAN_CROSS_ID" property="planCrossId"/>
+        <result column="GROUP_SERIAL_NBR" property="groupSerialNbr"/>
+        <result column="MARSHALLING_NAME" property="marshallingName"/>
+        <result column="TRAIN_SORT" property="trainSort"/>
+        <result column="BASE_CHART_ID" property="baseChartId"/>
+        <result column="CROSS_START_DATE" property="crossStartDate"/>
+        <result column="CROSS_END_DATE" property="crossEndDate"/>
+        <collection property="unitCrossTrainList" resultMap="org.railway.com.portal.repository.mybatis.UnitCrossTrainDao.unitCrossTrain"/>
+    </resultMap>
+
+    <select id="findPlanCross" resultMap="planCross">
+        SELECT PC.UNIT_CROSS_ID AS UNIT_CROSS_ID,
+        PC.GROUP_TOTAL_NBR AS GROUP_TOTAL_NBR,
+        PC.PLAN_CROSS_ID AS PLAN_CROSS_ID,
+        PC.BASE_CHART_ID AS BASE_CHART_ID,
+        BC.CROSS_START_DATE AS CROSS_START_DATE,
+        BC.CROSS_END_DATE AS CROSS_END_DATE,
+        UCT.GROUP_SERIAL_NBR AS GROUP_SERIAL_NBR,
+        UCT.MARSHALLING_NAME AS MARSHALLING_NAME,
+        UCT.TRAIN_SORT AS TRAIN_SORT,
+        UCT.UNIT_CROSS_TRAIN_ID AS UNIT_CROSS_TRAIN_ID,
+        UCT.UNIT_CROSS_ID AS UNIT_CROSS_ID,
+        UCT.GROUP_SERIAL_NBR AS GROUP_SERIAL_NBR,
+        UCT.GROUP_GAP AS GROUP_GAP,
+        UCT.MARSHALLING_NAME AS MARSHALLING_NAME,
+        UCT.TRAIN_SORT AS TRAIN_SORT,
+        UCT.TRAIN_NBR AS TRAIN_NBR,
+        UCT.BASE_TRAIN_ID AS BASE_TRAIN_ID,
+        UCT.START_STN AS START_STN,
+        UCT.START_BUREAU AS START_BUREAU,
+        UCT.END_STN AS END_STN,
+        UCT.END_BUREAU AS END_BUREAU,
+        UCT.DAY_GAP AS DAY_GAP,
+        UCT.ALTERNATE_TRAIN_NBR AS ALTERNATE_TRAIN_NBR,
+        UCT.ALTERNATE_TIME AS ALTERNATE_TIME,
+        UCT.SPARE_FLAG AS SPARE_FLAG,
+        UCT.SPARE_APPLY_FLAG AS SPARE_APPLY_FLAG,
+        UCT.HIGHLINE_FLAG AS HIGHLINE_FLAG,
+        UCT.HIGHLINE_RULE AS HIGHLINE_RULE,
+        UCT.COMMONLINE_RULE AS COMMONLINE_RULE,
+        UCT.APPOINT_WEEK AS APPOINT_WEEK,
+        UCT.APPOINT_DAY AS APPOINT_DAY,
+        UCT.RUN_DATE AS RUN_DATE,
+        UCT.END_DATE AS END_DATE
+        FROM PLAN_CROSS PC INNER JOIN UNIT_CROSS_TRAIN UCT ON PC.UNIT_CROSS_ID = UCT.UNIT_CROSS_ID
+        INNER JOIN UNIT_CROSS UC ON UC.UNIT_CROSS_ID = UCT.UNIT_CROSS_ID
+        INNER JOIN BASE_CROSS BC ON UC.BASE_CROSS_ID = BC.BASE_CROSS_ID
+        WHERE UCT.BASE_TRAIN_ID IS NOT NULL
+        <if test="list != null">
+            AND PC.PLAN_CROSS_ID IN
+            <foreach collection="list" item="item" index="index" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        ORDER BY PC.PLAN_CROSS_ID, UCT.GROUP_SERIAL_NBR, UCT.TRAIN_SORT
+    </select>
+</mapper> 

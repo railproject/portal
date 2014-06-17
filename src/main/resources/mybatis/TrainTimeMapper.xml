@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace必须指向Dao接口 -->
+<mapper namespace="trainTimeDao"> 
+   <select id="getTrainTimeInfoByTrainId" parameterType="string" resultType="org.railway.com.portal.entity.TrainTimeInfo">
+        select * from(
+         SELECT T.CHILD_INDEX AS childIndex,
+          T.NAME AS stnName,
+          T.Bureau_Shortname AS bureauShortName,
+          T.TRACK_NAME AS trackName,
+          '-' AS arrTime, 
+          TO_CHAR(T.TIME, 'hh24:mi:SS') AS dptTime, 
+          0 as runDays 
+          from JHPT_RJH.M_TRAINLINETEMP_SCHEDULE_SITEM T 
+          WHERE T.PARENT_ID = #{trainId} 
+          UNION 
+          SELECT T.CHILD_INDEX AS childIndex, 
+          T.NAME AS stnName, 
+          T.Bureau_Shortname AS bureauShortName, 
+          T.TRACK_NAME AS trackName, 
+          TO_CHAR(T.SOURCE_TIME, 'hh24:mi:SS') AS arrTime, 
+          TO_CHAR(T.TARGET_TIME, 'hh24:mi:SS') AS dptTime, 
+          t.relative_source_time_day as runDays  
+          from  JHPT_RJH.M_TRAINLINETEMP_SCHEDULE_RITEM T 
+          WHERE T.PARENT_ID = #{trainId} 
+         UNION 
+         SELECT T.CHILD_INDEX AS childIndex, 
+         T.NAME AS stnName, 
+         T.Bureau_Shortname AS bureauShortName, 
+         T.TRACK_NAME AS trackName, 
+         TO_CHAR(T.TIME, 'hh24:mi:SS') AS arrTime, 
+         '-' AS dptTime, 
+          t.relative_time_day runDays  
+         from  JHPT_RJH.M_TRAINLINETEMP_SCHEDULE_TITEM T
+         WHERE T.PARENT_ID = #{trainId})
+         ORDER BY childIndex
+   </select> 
+</mapper>

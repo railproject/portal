@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace必须指向Dao接口 -->
+<mapper namespace="org.railway.com.portal.repository.mybatis.UserDao">
+
+    <resultMap id="user" type="org.railway.com.portal.entity.User">
+        <id column="PER_ID" property="id"/>
+        <result column="USERNAME" property="username"/>
+        <result column="NAME" property="name"/>
+        <result column="PASSWORD" property="password"/>
+        <result column="LJPYM" property="ljpym"/>
+        <result column="LJQC" property="ljqc"/>
+        <result column="LJJC" property="ljjc"/>
+        <result column="DEP_NAME" property="deptname"/>
+    </resultMap>
+
+	<select id="getUserByUsernameAndAccId" parameterType="map" resultMap="user">
+        SELECT PER.PER_ID AS PER_ID, PER.USERNAME AS USERNAME, PER.PER_NAME AS NAME, PAR.PASSWORD AS PASSWORD,
+        LJ.LJPYM AS LJPYM, LJ.LJQC AS LJQC, LJ.LJJC AS LJJC, DPT.DEP_NAME AS DEP_NAME
+        FROM TDS1ADM.PERSON PER
+        INNER JOIN TDS1ADM.PER_ACC_RELA PAR ON PER.PER_ID = PAR.PER_ID
+        INNER JOIN TDS1ADM.DEPARTMENT DPT ON PER.DEP_ID = DPT.DEP_ID
+        LEFT JOIN JHPT_JCSJ.LJZD LJ ON DPT.LJPYM = LJ.LJPYM
+        WHERE PER.USERNAME = '${username}' AND PAR.ACC_ID = ${accId}
+	</select>
+
+    <select id="getAccountbyUsername" parameterType="string" resultType="map">
+        SELECT ACC.ACC_ID AS ACC_ID, ACC.ACC_NAME AS ACC_NAME
+        FROM TDS1ADM.PERSON PER
+        INNER JOIN TDS1ADM.PER_ACC_RELA PAR ON PER.PER_ID = PAR.PER_ID
+        INNER JOIN TDS1ADM.ACCOUNT ACC ON ACC.ACC_ID = PAR.ACC_ID
+        WHERE PER.USERNAME = #{username}
+    </select>
+</mapper> 

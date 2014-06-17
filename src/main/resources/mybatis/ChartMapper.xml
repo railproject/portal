@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace必须指向Dao接口 -->
+<mapper namespace="org.railway.com.portal.repository.mybatis.ChartDao">
+    <select id="getPlanTypeCount" parameterType="map" resultType="map">
+        SELECT SUM(RUNNING) AS RUNNING, SUM(BACKUP) AS BACKUP, SUM(STOPPED) AS STOPPED, SUM(UNKNOWN) AS UNKNOWN FROM(
+            SELECT COUNT(PT.PLAN_TRAIN_ID) AS RUNNING, 0 AS BACKUP, 0 AS STOPPED, 0 AS UNKNOWN FROM PLAN_TRAIN PT WHERE PT.SPARE_FLAG = 1 AND PT.RUN_DATE = '${date}' AND PT.START_BUREAU = '${bureau}'
+            UNION
+            SELECT 0 AS RUNNING, COUNT(PT.PLAN_TRAIN_ID) AS BACKUP, 0 AS STOPPED, 0 AS UNKNOWN FROM PLAN_TRAIN PT WHERE PT.SPARE_FLAG = 2 AND PT.RUN_DATE = '${date}' AND PT.START_BUREAU = '${bureau}'
+            UNION
+            SELECT 0 AS RUNNING, 0 AS BACKUP, COUNT(PT.PLAN_TRAIN_ID) AS STOPPED, 0 AS UNKNOWN FROM PLAN_TRAIN PT WHERE PT.SPARE_FLAG = 0 AND PT.RUN_DATE = '${date}' AND PT.START_BUREAU = '${bureau}'
+            UNION
+            SELECT 0 AS RUNNING, 0 AS BACKUP, 0 AS STOPPED, COUNT(PT.PLAN_TRAIN_ID) AS UNKNOWN FROM PLAN_TRAIN PT WHERE ((PT.SPARE_FLAG &lt;> 0 AND PT.SPARE_FLAG &lt;> 1 AND PT.SPARE_FLAG &lt;> 2) OR PT.SPARE_FLAG IS NULL) AND PT.RUN_DATE = '${date}' AND PT.START_BUREAU = '${bureau}'
+        )
+    </select>
+
+    <select id="getPlanLineCount" parameterType="map" resultType="map">
+        SELECT SUM(LINE) AS LINE, SUM(PLAN) AS PLAN, SUM(UNKNOWN) AS UNKNOWN FROM(
+            SELECT COUNT(PT.PLAN_TRAIN_ID) AS LINE, 0 AS PLAN, 0 AS UNKNOWN FROM PLAN_TRAIN PT WHERE PT.DAILYPLAN_FLAG = 0 AND PT.RUN_DATE = '${date}' AND PT.START_BUREAU = '${bureau}'
+            UNION
+            SELECT 0 AS LINE, COUNT(PT.PLAN_TRAIN_ID) AS PLAN, 0 AS UNKNOWN FROM PLAN_TRAIN PT WHERE PT.DAILYPLAN_FLAG = 1 AND PT.RUN_DATE = '${date}' AND PT.START_BUREAU = '${bureau}'
+            UNION
+            SELECT 0 AS LINE, 0 AS PLAN, COUNT(PT.PLAN_TRAIN_ID) AS UNKNOWN FROM PLAN_TRAIN PT WHERE ((PT.DAILYPLAN_FLAG &lt;> 1 AND PT.DAILYPLAN_FLAG &lt;> 0) OR PT.DAILYPLAN_FLAG IS NULL) AND PT.RUN_DATE = '${date}' AND PT.START_BUREAU = '${bureau}'
+        )
+    </select>
+
+    <select id="getLev1CheckCount" parameterType="map" resultType="map">
+        SELECT SUM(CHECKED) AS CHECKED, SUM(UNCHECKED) AS UNCHECKED FROM (
+        SELECT COUNT(PT.PLAN_TRAIN_ID) AS CHECKED, 0 AS UNCHECKED
+        FROM PLAN_TRAIN PT
+        LEFT JOIN JHPT_RJH.M_TRAINLINE TL ON PT.DAILYPLAN_ID = TL.ID
+        WHERE PT.START_BUREAU = '${bureau}' AND PT.RUN_DATE = '${date}'
+        AND PT.CHECK_LEV1_BUREAU LIKE '%${bureau}%'
+        UNION
+        SELECT 0 AS CHECKED, COUNT(PT.PLAN_TRAIN_ID) AS UNCHECKED
+        FROM PLAN_TRAIN PT
+        LEFT JOIN JHPT_RJH.M_TRAINLINE TL ON PT.DAILYPLAN_ID = TL.ID
+        WHERE PT.START_BUREAU = '${bureau}' AND PT.RUN_DATE = '${date}'
+        AND (PT.CHECK_LEV1_BUREAU IS NULL OR PT.CHECK_LEV1_BUREAU NOT LIKE '%${bureau}%')
+        )
+    </select>
+
+    <select id="getLev2CheckCount" parameterType="map" resultType="map">
+        SELECT SUM(CHECKED) AS CHECKED, SUM(UNCHECKED) AS UNCHECKED FROM (
+        SELECT COUNT(PT.PLAN_TRAIN_ID) AS CHECKED, 0 AS UNCHECKED
+        FROM PLAN_TRAIN PT
+        LEFT JOIN JHPT_RJH.M_TRAINLINE TL ON PT.DAILYPLAN_ID = TL.ID
+        WHERE PT.START_BUREAU = '${bureau}' AND PT.RUN_DATE = '${date}'
+        AND PT.CHECK_LEV2_BUREAU LIKE '%${bureau}%'
+        UNION
+        SELECT 0 AS CHECKED, COUNT(PT.PLAN_TRAIN_ID) AS UNCHECKED
+        FROM PLAN_TRAIN PT
+        LEFT JOIN JHPT_RJH.M_TRAINLINE TL ON PT.DAILYPLAN_ID = TL.ID
+        WHERE PT.START_BUREAU = '${bureau}' AND PT.RUN_DATE = '${date}'
+        AND (PT.CHECK_LEV2_BUREAU IS NULL OR PT.CHECK_LEV2_BUREAU NOT LIKE '%${bureau}%')
+        )
+    </select>
+</mapper> 

@@ -1,0 +1,97 @@
+.btn-big {
+	display:block;
+	font-size:17px;
+	font-family: "微软雅黑";
+}
+.btn-primary {
+	color: white;
+	background-color: #1297FF;
+	border-color: #007AD8;
+}
+.btn-display {
+	display:none;
+}
+i {
+	margin-right:10px;
+}
+body {
+	font-family: "微软雅黑";
+}
+@charset "utf-8";
+/* CSS Document */
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
+	margin: 0px;
+	padding: 0px;
+	border: 0px;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+/*a链接去除下划线*/
+a {
+	test-decoration:none;
+}
+article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1;
+	-webkit-text-size-adjust: 100%;
+	letter-spacing: 0px;
+}
+ol, ul {
+	list-style: none;
+}
+.login {
+	width:100%;
+	height:100%;
+	overflow:hidden;
+}
+.login_backgroud {
+	overflow:hidden;
+	width:100%;
+	height:100%;
+	background:#133f80 url(../img/login_bg.jpg) no-repeat;
+	-moz-background-size: 100% 100%;
+	-ms-background-size: 100% 100%;
+	-webkit-background-size: 100% 100%;
+	background-size: 100% 100%;
+	background-attachment: fixed;
+}
+.login_overlay {
+	position:absolute;
+	top:50%;
+	margin-top:-180px;
+	left:50%;
+	margin-left:-310px;
+}
+.login-logo {
+	width:553px;
+	height:63px;
+	background:url(../img/login-logo-1.png);
+}
+.login_input {
+	margin-top:90px;
+	z-index:20;
+}
+.btn-group > .btn + .dropdown-toggle {
+	padding-top: 5px;
+	padding-bottom: 11px;
+}
+.login_footer {
+	color:#c7e0f7;
+	position:absolute;
+	bottom:20px;
+	z-index:10;
+	text-align:center;
+	width:100%;
+}
+.aquila {
+	position:absolute;
+	right:5%;
+	top:6%;
+	background:url(../img/aquila.png);
+	height:271px;
+	width:234px;
+	background-repeat:no-repeat;
+}

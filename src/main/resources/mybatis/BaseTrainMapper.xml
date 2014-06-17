@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace必须指向Dao接口 -->
+<mapper namespace="org.railway.com.portal.repository.mybatis.BaseTrainDao">
+    
+    <resultMap id="baseTrain" type="org.railway.com.portal.entity.RunPlan">
+        <id column="BASETRAINID1" property="baseTrainId"/>
+        <result column="TRAINNBR" property="trainNbr"/>
+        <result column="SPAREFLAG" property="spareFlag"/>
+        <result column="DAYGAP" property="dayGap"/>
+        <result column="SPAREAPPLYFLAG" property="spareApplyFlag"/>
+        <result column="HIGHLINEFLAG" property="highLineFlag"/>
+        <result column="HIGHLINERULE" property="hightLineRule"/>
+        <result column="COMMONLINERULE" property="commonLineRule"/>
+        <result column="APPOINTWEEK" property="appointWeek"/>
+        <result column="APPOINTDAY" property="appointDay"/>
+        <result column="STARTBUREAUFULL" property="startBureauFullName"/>
+        <result column="STARTBUREAU" property="startBureauShortName"/>
+        <result column="STARTSTN" property="startStn"/>
+        <result column="ENDBUREAUFULL" property="endBureauFullName"/>
+        <result column="ENDBUREAU" property="endBureauShortName"/>
+        <result column="ENDSTN" property="endStn"/>
+        <result column="STARTTIME" property="startTimeStr"/>
+        <result column="ENDTIME" property="endTimeStr"/>
+        <result column="PASSBUREAU" property="passBureau"/>
+        <result column="TRAINSCOPE" property="trainScope"/>
+        <result column="TRAINTYPEID" property="trainTypeId"/>
+        <collection property="runPlanStnList" resultMap="baseTrainStn"/>
+    </resultMap>
+
+    <resultMap id="baseTrainStn" type="org.railway.com.portal.entity.RunPlanStn">
+        <id column="ID" property="planTrainStnId"/>
+        <result column="STNSORT" property="stnSort"/>
+        <result column="STNNAME" property="stnName"/>
+        <result column="STNBUREAU" property="stnBureauShortName"/>
+        <result column="STNBUREAUFULL" property="stnBureauFullName"/>
+        <result column="ARRTIME" property="arrTimeStr"/>
+        <result column="DPTTIME" property="dptTimeStr"/>
+        <result column="rundays" property="runDays"/>
+        <result column="TRACKNAME" property="trackName"/>
+    </resultMap>
+
+    <select id="findBaseTrainByPlanCrossid" parameterType="string" resultMap="baseTrain">
+        SELECT M.*, N.* FROM
+        (
+        select O.BASE_TRAIN_ID              BASETRAINID1,
+        O.TRAIN_NBR                 TRAINNBR,
+        O.DAY_GAP                   DAYGAP,
+        O.SPARE_FLAG                SPAREFLAG,
+        O.SPARE_APPLY_FLAG          SPAREAPPLYFLAG,
+        O.HIGHLINE_FLAG             HIGHLINEFLAG,
+        O.HIGHLINE_RULE             HIGHLINERULE,
+        O.COMMONLINE_RULE           COMMONLINERULE,
+        O.APPOINT_WEEK              APPOINTWEEK,
+        O.APPOINT_DAY               APPOINTDAY,
+        t.Source_Bureau_Name        STARTBUREAUFULL,
+        t.source_bureau_shortname   STARTBUREAU,
+        t.source_node_name          STARTSTN,
+        t.target_bureau_name        ENDBUREAUFULL,
+        t.target_bureau_shortname   ENDBUREAU,
+        t.target_node_name          ENDSTN,
+        decode(TO_CHAR(T.Source_Time, 'hh24:mi:SS'),null,'00:00:00',TO_CHAR(T.Source_Time, 'hh24:mi:SS'))  STARTTIME,
+        decode(TO_CHAR(T.target_time, 'hh24:mi:SS'),null,'00:00:00',TO_CHAR(T.target_time, 'hh24:mi:SS'))  ENDTIME,
+        t.route_bureau_shortnames   PASSBUREAU,
+        CASE WHEN t.route_bureau_shortnames IS NULL OR LENGTH(t.route_bureau_shortnames)=1 THEN 0 ELSE 1 END    TRAINSCOPE,
+        t.relative_target_time_day  runDaysAll,
+        t.type_id                   TRAINTYPEID,
+        t.TYPE_NAME                 TYPENAME,
+        t.SCHEME_ID                 BASECHARTID
+        from JHPT_RJH.m_trainlinetemp t,
+        (select DISTINCT A.BASE_TRAIN_ID, A.TRAIN_NBR,A.DAY_GAP,A.SPARE_FLAG,A.SPARE_APPLY_FLAG,A.HIGHLINE_FLAG, A.HIGHLINE_RULE,A.COMMONLINE_RULE,A.APPOINT_WEEK,A.APPOINT_DAY
+        from UNIT_CROSS_TRAIN A, PLAN_CROSS B
+        WHERE A.UNIT_CROSS_ID = B.UNIT_CROSS_ID AND A.BASE_TRAIN_ID IS NOT NULL
+        <if test="planCrossId != null">
+            AND B.PLAN_CROSS_ID = #{planCrossId}
+        </if>
+        ) O
+        WHERE t.ID = O.BASE_TRAIN_ID
+        ) M,
+        (
+        select T1.BASE_TRAIN_ID BASETRAINID,
+        T1.ID,
+        T1.STN_SORT		STNSORT,
+        T1.STN_NAME		STNNAME,
+        T1.STN_BUREAU	STNBUREAU,
+        T1.STN_BUREAU_FULL	STNBUREAUFULL,
+        T1.ARR_TIME		ARRTIME,
+        T1.DPT_TIME		DPTTIME,
+        T1.run_days		rundays,
+        T1.TRACK_NAME	TRACKNAME
+        from (SELECT t.parent_id      BASE_TRAIN_ID,
+        t.ID,
+        t.parent_name    TRAIN_NBR,
+        T.CHILD_INDEX    STN_SORT,
+        T.NAME           STN_NAME,
+        T.Bureau_Shortname STN_BUREAU,
+        T.Bureau_Name    STN_BUREAU_FULL,
+        decode(TO_CHAR(T.TIME, 'hh24:mi:SS'),null,'00:00:00',TO_CHAR(T.TIME, 'hh24:mi:SS'))  ARR_TIME,
+        decode(TO_CHAR(T.TIME, 'hh24:mi:SS'),null,'00:00:00',TO_CHAR(T.TIME, 'hh24:mi:SS'))  DPT_TIME,
+        0                run_days,
+        T.TRACK_NAME
+        FROM JHPT_RJH.M_TRAINLINETEMP_SCHEDULE_SITEM T,
+        (select A.BASE_TRAIN_ID from UNIT_CROSS_TRAIN A,PLAN_CROSS B WHERE A.UNIT_CROSS_ID = B.UNIT_CROSS_ID AND A.BASE_TRAIN_ID IS NOT NULL
+        <if test="planCrossId != null">
+            AND B.PLAN_CROSS_ID = #{planCrossId}
+        </if>
+        GROUP BY A.BASE_TRAIN_ID
+        ) O
+        WHERE t.parent_id = O.BASE_TRAIN_ID
+        UNION ALL
+        SELECT t.parent_id      BASE_TRAIN_ID,
+        t.ID,
+        t.parent_name    TRAIN_NBR,
+        T.CHILD_INDEX    STN_SORT,
+        T.NAME           STN_NAME,
+        T.Bureau_Shortname STN_BUREAU,
+        T.Bureau_Name      STN_BUREAU_FULL,
+        decode(TO_CHAR(T.SOURCE_TIME, 'hh24:mi:SS'),null,'00:00:00',TO_CHAR(T.SOURCE_TIME, 'hh24:mi:SS'))  ARR_TIME,
+        decode(TO_CHAR(T.TARGET_TIME, 'hh24:mi:SS'),null,'00:00:00',TO_CHAR(T.TARGET_TIME, 'hh24:mi:SS'))  DPT_TIME,
+        t.relative_source_time_day run_days,
+        T.TRACK_NAME
+        FROM JHPT_RJH.M_TRAINLINETEMP_SCHEDULE_RITEM T,
+        (select A.BASE_TRAIN_ID from UNIT_CROSS_TRAIN A,PLAN_CROSS B WHERE A.UNIT_CROSS_ID = B.UNIT_CROSS_ID AND A.BASE_TRAIN_ID IS NOT NULL
+        <if test="planCrossId != null">
+            AND B.PLAN_CROSS_ID = #{planCrossId}
+        </if>
+        GROUP BY A.BASE_TRAIN_ID
+        ) O
+        WHERE t.parent_id = O.BASE_TRAIN_ID
+        UNION ALL
+        SELECT t.parent_id      BASE_TRAIN_ID,
+        t.ID,
+        t.parent_name    TRAIN_NBR,
+        T.CHILD_INDEX    STN_SORT,
+        T.NAME           STN_NAME,
+        T.Bureau_Shortname STN_BUREAU,
+        T.Bureau_Name    STN_BUREAU_FULL,
+        decode(TO_CHAR(T.TIME, 'hh24:mi:SS'),null,'00:00:00',TO_CHAR(T.TIME, 'hh24:mi:SS'))  ARR_TIME,
+        decode(TO_CHAR(T.TIME, 'hh24:mi:SS'),null,'00:00:00',TO_CHAR(T.TIME, 'hh24:mi:SS'))  DPT_TIME,
+        t.relative_time_day run_days,
+        T.TRACK_NAME
+        FROM JHPT_RJH.M_TRAINLINETEMP_SCHEDULE_TITEM T,
+        (select A.BASE_TRAIN_ID from UNIT_CROSS_TRAIN A,PLAN_CROSS B WHERE A.UNIT_CROSS_ID = B.UNIT_CROSS_ID AND A.BASE_TRAIN_ID IS NOT NULL
+        <if test="planCrossId != null">
+            AND B.PLAN_CROSS_ID = #{planCrossId}
+        </if>
+        GROUP BY A.BASE_TRAIN_ID
+        ) O
+        WHERE t.parent_id = O.BASE_TRAIN_ID
+
+        ) T1
+        ) N
+        WHERE M.BASETRAINID1 = N.BASETRAINID
+        ORDER BY N.BASETRAINID, N.STNSORT
+    </select>
+</mapper> 
