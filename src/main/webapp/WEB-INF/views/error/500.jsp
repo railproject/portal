@@ -1,4 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:set var="ctx" value="${pageContext.request.contextPath}"/>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,11 +10,11 @@
     <meta name="author" content="author">
     <title>addRole</title>
     <!-- Bootstrap core CSS -->
-    <link type="text/css" href="assets/css/custom-bootstrap.css" rel="stylesheet">
+    <link type="text/css" href="${ctx}/assets/css/custom-bootstrap.css" rel="stylesheet">
     <!--font-awesome-->
-    <link type="text/css" rel="stylesheet" href="assets/css/font-awesome.min.css"/>
+    <link type="text/css" rel="stylesheet" href="${ctx}/assets/css/font-awesome.min.css"/>
     <!-- Custom styles for this template -->
-    <link type="text/css" href="assets/css/style.css" rel="stylesheet">
+    <link type="text/css" href="${ctx}/assets/css/style.css" rel="stylesheet">
     <style type="text/css">
         form p {
             padding-top: 7px;
@@ -20,7 +22,7 @@
     </style>
 </head>
 <body class="Iframe_body">
-<section class="error"><img src="assets/img/500.png" class="img-responsive">
+<section class="error"><img src="${ctx}/assets/img/500.png" class="img-responsive">
     <hr>
     <hr>
     <hr>

@@ -41,13 +41,13 @@ public class LoginController {
 		return "redirect:login";
 	}
 
-    @RequestMapping(value = "/logout", method = RequestMethod.GET)
+    @RequestMapping(value = "user/switch", method = RequestMethod.GET)
     public String logout() {
         Subject currentUser = SecurityUtils.getSubject();
-        String result = "redirect:login";
+        String username = ((ShiroRealm.ShiroUser)currentUser.getPrincipal()).getUsername();
         currentUser.logout();
-        logger.info("Logout:" + ((ShiroRealm.ShiroUser)currentUser.getPrincipal()).getUsername() + " logout!");
-        return result;
+        logger.info("Logout:" + username + " logout!");
+        return "redirect:../login";
     }
 
 	@RequestMapping(value = "index", method = RequestMethod.GET)
