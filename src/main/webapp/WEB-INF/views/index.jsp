@@ -96,7 +96,7 @@
 
                 <!-- 未登录用户 -->
                 <shiro:notAuthenticated>
-                    <button class="btn btn-warning" type="button" id="indexLoginBtn" style="padding:6px 13px; border-radius: 4px; width: 100px;margin-left: 170px;">登&nbsp;录</button>
+                    <button class="btn btn-warning" type="button" id="indexLoginBtn" style="padding:6px 13px; border-radius: 4px; width: 100px;margin-left: 20px;">登&nbsp;录</button>
                 </shiro:notAuthenticated>
             </div>
             <!--btn-group-->
