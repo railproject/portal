@@ -78,6 +78,7 @@
         <div class="pull-left logo_name"><img src="${ctx}/assets/img/login-logo.png" height="50px"> </div>
         <div class="col-md-4 col-sm-4 col-xs-4 pull-right">
             <div class="btn-group pull-right" style="margin-top:15px;">
+                <a type="button" target="_blank" href="http://10.1.186.115:8090/trainplan" class="btn btn-success paddingleftright5" style="padding:6px 13px;border-radius: 4px;">客调系统</a>
                 <!-- 已登录用户 -->
                 <shiro:authenticated>
                     <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown">
@@ -87,7 +88,7 @@
                     </button>
                     <ul class="dropdown-menu" role="menu">
                         <li><a href="#"><i class="fa fa-cog"></i>修改密码</a></li>
-                        <li><a href="${ctx}/user/switch"><i class="fa fa-sign-in"></i>切换用户</a></li>
+                        <li><a href="${ctx}/user/switch"><i class="fa fa-user"></i>切换用户</a></li>
                         <li class="divider"></li>
                         <li><a href="${ctx}/logout"><i class="fa fa-sign-out"></i> 退 出</a></li>
                     </ul>
