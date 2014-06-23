@@ -2,6 +2,7 @@
  * Created by star on 5/15/14.
  */
 $(function() {
+    $("#inputUsername").focus();
     $("#inputUsername").blur(function() {
         if($("#inputUsername").val().trim().length == 0) {
             return false;
