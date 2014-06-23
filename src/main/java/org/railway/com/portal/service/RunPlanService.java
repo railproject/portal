@@ -25,6 +25,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -67,6 +68,14 @@ public class RunPlanService {
         logger.info("thread pool size = " + threadNbr);
         executorService = Executors.newFixedThreadPool(threadNbr);
         logger.info("init thread pool end");
+    }
+
+    @PreDestroy
+    public void destroy() {
+        logger.info("destroy thread pool start");
+        logger.info("thread pool size = " + threadNbr);
+        executorService.shutdown();
+        logger.info("destroy thread pool end");
     }
 
     public List<Map<String, Object>> findRunPlan(String date, String bureau, int type) {
