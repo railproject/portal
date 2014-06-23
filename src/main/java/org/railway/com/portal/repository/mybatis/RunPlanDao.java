@@ -61,5 +61,5 @@ public interface RunPlanDao {
     List<Map<String, Object>> findPlanInfoListByPlanId(List<String> params);
 
 
-    int addRunPlan(RunPlan runplan);
+    int addRunPlan(List<RunPlan> list);
 }

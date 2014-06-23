@@ -12,6 +12,7 @@ import org.apache.commons.logging.LogFactory;
 import org.javasimon.aop.Monitored;
 import org.joda.time.Days;
 import org.joda.time.LocalDate;
+import org.joda.time.LocalTime;
 import org.joda.time.format.DateTimeFormat;
 import org.railway.com.portal.common.constants.Constants;
 import org.railway.com.portal.entity.*;
@@ -387,6 +388,7 @@ public class RunPlanService {
         @Transactional
         @Monitored
         public void run() {
+            logger.info("thread start:" + LocalTime.now().toString("hh:mm:ss"));
             List<UnitCrossTrain> unitCrossTrainList = this.planCross.getUnitCrossTrainList();
             String planCrossId = planCross.getPlanCrossId();
             Map<String, Object> params = Maps.newHashMap();
@@ -397,18 +399,20 @@ public class RunPlanService {
 
             try {
                 resultRunPlanList.addAll(generateRunPlan(start, unitCrossTrainList, baseRunPlanList, planCrossId, this.planCross.getGroupTotalNbr(), this.days));
-
+                List<RunPlanStn> runPlanStnData = Lists.newArrayList();
                 for(RunPlan runPlan: resultRunPlanList) {
                     List<RunPlanStn> runPlanStnList = runPlan.getRunPlanStnList();
-                    runPlanStnDao.addRunPlanStn(runPlanStnList);
-                    runPlanDao.addRunPlan(runPlan);
+                    runPlanStnData.addAll(runPlanStnList);
                 }
+                runPlanStnDao.addRunPlanStn(runPlanStnData);
+                runPlanDao.addRunPlan(resultRunPlanList);
             } catch (WrongDataException e) {
                 logger.error("数据错误：plancross_id = " + this.planCross.getPlanCrossId(), e);
             } catch (Exception e) {
                 e.printStackTrace();
                 logger.error("生成计划失败：plancross_id = " + this.planCross.getPlanCrossId(), e);
             }
+            logger.info("thread start:" + LocalTime.now().toString("hh:mm:ss"));
         }
 
         private List<RunPlan> generateRunPlan(LocalDate startDate, List<UnitCrossTrain> unitCrossTrainList,
