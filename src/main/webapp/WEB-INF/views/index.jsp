@@ -8,7 +8,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>铁路运输调度计划平台</title>
+    <title>铁总计划运行图平台</title>
     <link href="${ctx}/assets/css/custom-bootstrap.css" rel="stylesheet">
     <!--font-awesome-->
     <link  type="text/css" rel="stylesheet" href="${ctx}/assets/css/font-awesome.min.css"/>
