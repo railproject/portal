@@ -81,7 +81,7 @@
                 <a type="button" target="_blank" href="http://10.1.186.115:8090/trainplan/login" class="btn btn-success paddingleftright5" style="padding:6px 13px;border-radius: 4px;">客调系统</a>
                 <!-- 已登录用户 -->
                 <shiro:authenticated>
-                    <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown">
+                    <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" style="padding:6px 13px; border-radius: 4px; width: 120px;margin-left: 20px;">
                         <i class="fa fa-user"></i>
                         <shiro:principal/>
                         <span class="caret"></span>
