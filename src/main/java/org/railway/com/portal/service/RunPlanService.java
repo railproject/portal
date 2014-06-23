@@ -422,7 +422,7 @@ public class RunPlanService {
                 e.printStackTrace();
                 logger.error("生成计划失败：plancross_id = " + this.planCross.getPlanCrossId(), e);
             }
-            logger.info("thread start:" + LocalTime.now().toString("hh:mm:ss"));
+            logger.info("thread end:" + LocalTime.now().toString("hh:mm:ss"));
         }
 
         private List<RunPlan> generateRunPlan(LocalDate startDate, List<UnitCrossTrain> unitCrossTrainList,
