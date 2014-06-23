@@ -64,6 +64,7 @@ public class RunPlanService {
     @PostConstruct
     public void init() {
         logger.info("init thread pool start");
+        logger.info("thread pool size = " + threadNbr);
         executorService = Executors.newFixedThreadPool(threadNbr);
         logger.info("init thread pool end");
     }
