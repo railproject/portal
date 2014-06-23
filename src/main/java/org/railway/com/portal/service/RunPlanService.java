@@ -399,21 +399,20 @@ public class RunPlanService {
                 resultRunPlanList.addAll(generateRunPlan(start, unitCrossTrainList, baseRunPlanList, planCrossId, this.planCross.getGroupTotalNbr(), this.days));
 
                 for(RunPlan runPlan: resultRunPlanList) {
-                    try {
-                        List<RunPlanStn> runPlanStnList = runPlan.getRunPlanStnList();
-                        runPlanStnDao.addRunPlanStn(runPlanStnList);
-                        runPlanDao.addRunPlan(runPlan);
-                    } catch (Exception e) {
-                        logger.error(e);
-                    }
+                    List<RunPlanStn> runPlanStnList = runPlan.getRunPlanStnList();
+                    runPlanStnDao.addRunPlanStn(runPlanStnList);
+                    runPlanDao.addRunPlan(runPlan);
                 }
             } catch (WrongDataException e) {
                 logger.error("数据错误：plancross_id = " + this.planCross.getPlanCrossId(), e);
+            } catch (Exception e) {
+                e.printStackTrace();
+                logger.error("生成计划失败：plancross_id = " + this.planCross.getPlanCrossId(), e);
             }
         }
 
         private List<RunPlan> generateRunPlan(LocalDate startDate, List<UnitCrossTrain> unitCrossTrainList,
-                                              List<RunPlan> baseRunPlanList, String planCrossId, int totalGroupNbr, int days) throws WrongDataException {
+                                              List<RunPlan> baseRunPlanList, String planCrossId, int totalGroupNbr, int days) throws WrongDataException, Exception {
             // 按组别保存最后一个计划
             Map<Integer, RunPlan> lastRunPlans = Maps.newHashMap();
             // 用来保存最后一个交路起点
@@ -430,7 +429,7 @@ public class RunPlanService {
             int totalDayGap = 0;
             // 开始生成
             generate: {
-                for(int i = 0; true; i ++) {
+                for(int i = 0; i < 10000; i ++) {
                     UnitCrossTrain unitCrossTrain = unitCrossTrainList.get(i % unitCrossTrainList.size());
                     LocalDate runDate = DateTimeFormat.forPattern("yyyyMMdd").parseLocalDate(unitCrossTrain.getRunDate());
                     LocalDate endDate = DateTimeFormat.forPattern("yyyyMMdd").parseLocalDate(unitCrossTrain.getEndDate());
@@ -519,6 +518,7 @@ public class RunPlanService {
                                 break;
                             } catch (Exception e) {
                                 logger.error("生成客运计划出错", e);
+                                throw e;
                             }
                         }
                     }
