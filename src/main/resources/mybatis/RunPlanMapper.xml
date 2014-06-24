@@ -147,7 +147,7 @@
     </delete>
     
 
-    <insert id="addRunPlan" parameterType="org.railway.com.portal.entity.RunPlan">
+    <insert id="addRunPlanList" parameterType="java.util.List">
         INSERT INTO PLAN_TRAIN(PLAN_TRAIN_ID, PLAN_TRAIN_SIGN,PLAN_CROSS_ID,MARSHALLING_NAME,GROUP_SERIAL_NBR,TRAIN_SORT,PRE_TRAIN_ID,NEXT_TRAIN_ID,RUN_DATE,
         TRAIN_NBR,START_TIME,END_TIME,START_BUREAU,START_BUREAU_FULL,START_STN,END_BUREAU,END_BUREAU_FULL,END_STN,PASS_BUREAU,TRAIN_SCOPE,TRAIN_TYPE_ID,
         HIGHLINE_FLAG,BASE_CHART_ID,BASE_TRAIN_ID,HIGHLINE_RULE,COMMONLINE_RULE,APPOINT_WEEK,APPOINT_DAY,DAY_GAP,SPARE_FLAG,SPARE_APPLY_FLAG,CREAT_TYPE,
@@ -164,6 +164,25 @@
             #{item.createType, jdbcType=NUMERIC}, #{item.createDateTime, jdbcType=DATE}, #{item.checkLev1Type, jdbcType=NUMERIC}, #{item.checkLev2Type, jdbcType=NUMERIC},
             #{item.dailyPlanTimes, jdbcType=NUMERIC}, #{item.dailyPlanFlag, jdbcType=NUMERIC} FROM DUAL
         </foreach>
+    </insert>
+
+    <insert id="addRunPlan" parameterType="org.railway.com.portal.entity.RunPlan">
+        INSERT INTO PLAN_TRAIN(PLAN_TRAIN_ID, PLAN_TRAIN_SIGN,PLAN_CROSS_ID,MARSHALLING_NAME,GROUP_SERIAL_NBR,TRAIN_SORT,PRE_TRAIN_ID,NEXT_TRAIN_ID,RUN_DATE,
+        TRAIN_NBR,START_TIME,END_TIME,START_BUREAU,START_BUREAU_FULL,START_STN,END_BUREAU,END_BUREAU_FULL,END_STN,PASS_BUREAU,TRAIN_SCOPE,TRAIN_TYPE_ID,
+        HIGHLINE_FLAG,BASE_CHART_ID,BASE_TRAIN_ID,HIGHLINE_RULE,COMMONLINE_RULE,APPOINT_WEEK,APPOINT_DAY,DAY_GAP,SPARE_FLAG,SPARE_APPLY_FLAG,CREAT_TYPE,
+        CREAT_TIME,CHECK_LEV1_TYPE,CHECK_LEV2_TYPE,DAILYPLAN_TIMES,DAILYPLAN_FLAG)
+        VALUES(
+            #{planTrainId, jdbcType=VARCHAR}, #{planTrainSign, jdbcType=VARCHAR}, #{planCrossId, jdbcType=VARCHAR}, #{marshallingName, jdbcType=VARCHAR},
+            #{groupSerialNbr, jdbcType=NUMERIC}, #{trainSort, jdbcType=NUMERIC}, #{preTrainId, jdbcType=VARCHAR},
+            #{nextTrainId, jdbcType=VARCHAR}, #{runDate, jdbcType=VARCHAR}, #{trainNbr, jdbcType=VARCHAR}, #{startDateTime, jdbcType=DATE},
+            #{endDateTime, jdbcType=DATE},#{startBureauShortName, jdbcType=VARCHAR}, #{startBureauFullName, jdbcType=VARCHAR}, #{startStn, jdbcType=VARCHAR},
+            #{endBureauShortName, jdbcType=VARCHAR},#{endBureauFullName, jdbcType=VARCHAR}, #{endStn, jdbcType=VARCHAR}, #{passBureau, jdbcType=VARCHAR},
+            #{trainScope, jdbcType=NUMERIC},#{trainTypeId, jdbcType=VARCHAR}, #{highLineFlag, jdbcType=NUMERIC}, #{baseChartId, jdbcType=VARCHAR},
+            #{baseTrainId, jdbcType=VARCHAR},#{hightLineRule, jdbcType=NUMERIC}, #{commonLineRule, jdbcType=NUMERIC}, #{appointWeek, jdbcType=VARCHAR},
+            #{appointDay, jdbcType=VARCHAR},#{dayGap, jdbcType=NUMERIC},#{spareFlag, jdbcType=NUMERIC}, #{spareApplyFlag, jdbcType=NUMERIC},
+            #{createType, jdbcType=NUMERIC}, #{createDateTime, jdbcType=DATE}, #{checkLev1Type, jdbcType=NUMERIC}, #{checkLev2Type, jdbcType=NUMERIC},
+            #{dailyPlanTimes, jdbcType=NUMERIC}, #{dailyPlanFlag, jdbcType=NUMERIC}
+        )
     </insert>
 
 </mapper> 
