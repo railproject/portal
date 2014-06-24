@@ -146,8 +146,11 @@
         ELEC_SUPPLY,
         DEJ_COLLECT,
         AIR_CONDITION,
-        NOTE,
-        CREAT_TIME
+        NOTE, 
+        RELEVANT_BUREAU,
+        CREAT_TIME 
+       
+        
         )
         (
 
@@ -186,6 +189,7 @@
 	        #{item.dejCollect,jdbcType=NUMERIC},
 	        #{item.airCondition,jdbcType=NUMERIC},
 	        #{item.note,jdbcType=VARCHAR},
+	        #{item.relevantBureau,jdbcType=VARCHAR},
 	        sysdate
 	      
 	       from dual
