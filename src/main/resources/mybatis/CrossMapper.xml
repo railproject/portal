@@ -71,7 +71,7 @@
         BASE_CHART_NAME as chartName,
         CROSS_START_DATE as crossStartDate,
         CROSS_END_DATE as crossEndDate,
-
+		RELEVANT_BUREAU as relevantBureau,
         CROSS_NAME as crossName,
         CROSS_SPARE_NAME as crossSpareName,
         ALTERNATE_DATE as alterNateDate,
