@@ -60,22 +60,22 @@ public class RunPlanService {
     @Value("#{restConfig['plan.generatr.thread']}")
     private int threadNbr;
 
-    private static ExecutorService executorService;
+//    private static ExecutorService executorService;
 
     @PostConstruct
     public void init() {
-        logger.info("init thread pool start");
-        logger.info("thread pool size = " + threadNbr);
-        executorService = Executors.newFixedThreadPool(threadNbr);
-        logger.info("init thread pool end");
+//        logger.info("init thread pool start");
+//        logger.info("thread pool size = " + threadNbr);
+//        executorService = Executors.newFixedThreadPool(threadNbr);
+//        logger.info("init thread pool end");
     }
 
     @PreDestroy
     public void destroy() {
-        logger.info("destroy thread pool start");
-        logger.info("thread pool size = " + threadNbr);
-        executorService.shutdown();
-        logger.info("destroy thread pool end");
+//        logger.info("destroy thread pool start");
+//        logger.info("thread pool size = " + threadNbr);
+//        executorService.shutdown();
+//        logger.info("destroy thread pool end");
     }
 
     public List<Map<String, Object>> findRunPlan(String date, String bureau, int type) {
@@ -351,15 +351,17 @@ public class RunPlanService {
      * @return 生成了多少个plancross的计划
      */
     public int generateRunPlan(List<String> planCrossIdList, String startDate, int days) {
-        List<PlanCross> planCrossList = null;
-        try{
-            planCrossList = unitCrossDao.findPlanCross(planCrossIdList);
+        ExecutorService executorService = Executors.newFixedThreadPool(threadNbr);
+        List<PlanCross> planCrossList = unitCrossDao.findPlanCross(planCrossIdList);
+        try {
             for(PlanCross planCross: planCrossList) {
                 executorService.execute(new RunPlanGenerator(planCross, runPlanDao, baseTrainDao, startDate, runPlanStnDao, days));
+//            (new RunPlanGenerator(planCross, runPlanDao, baseTrainDao, startDate, runPlanStnDao, days)).run();
             }
         } finally {
             executorService.shutdown();
         }
+
         return planCrossList.size();
     }
 
@@ -398,7 +400,7 @@ public class RunPlanService {
         @Transactional
         @Monitored
         public void run() {
-            logger.info("thread start:" + LocalTime.now().toString("hh:mm:ss"));
+            logger.debug("thread start:" + LocalTime.now().toString("hh:mm:ss"));
             List<UnitCrossTrain> unitCrossTrainList = this.planCross.getUnitCrossTrainList();
             String planCrossId = planCross.getPlanCrossId();
             Map<String, Object> params = Maps.newHashMap();
@@ -422,7 +424,7 @@ public class RunPlanService {
                 e.printStackTrace();
                 logger.error("生成计划失败：plancross_id = " + this.planCross.getPlanCrossId(), e);
             }
-            logger.info("thread end:" + LocalTime.now().toString("hh:mm:ss"));
+            logger.debug("thread end:" + LocalTime.now().toString("hh:mm:ss"));
         }
 
         private List<RunPlan> generateRunPlan(LocalDate startDate, List<UnitCrossTrain> unitCrossTrainList,
