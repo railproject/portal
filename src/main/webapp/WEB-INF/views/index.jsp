@@ -60,7 +60,7 @@
                 $("#contentLayerFrame").attr("src",src);
             }
 
-//            $("#kanban").get(0).click();
+            $("#kanban").get(0).click();
         });
 
 
