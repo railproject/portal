@@ -68,6 +68,12 @@
             $("#indexLoginBtn").click(function(){
                 window.location = "${ctx}/login";
             });
+            $("#kyjhBtn").click(function() {
+                window.open("http://10.1.186.115:8090/trainplan/login");
+            });
+            $("#sgjhBtn").click(function() {
+                window.open("http://10.1.191.135:7003/sgdd");
+            });
         });
 
     </script>
@@ -77,9 +83,9 @@
     <div class="row">
         <div class="pull-left logo_name"><img src="${ctx}/assets/img/login-logo.png" height="50px"> </div>
         <div class="col-md-4 col-sm-4 col-xs-4 pull-right">
-            <div class="pull-right" style="margin-top:15px;">
-                <a type="button" target="_blank" href="http://10.1.186.115:8090/trainplan/login" class="btn btn-success paddingleftright5" style="padding:6px 13px;border-radius: 4px;">路局客运计划编制</a>
-                <a type="button" target="_blank" href="http://10.1.191.135:7003/sgdd" class="btn btn-success paddingleftright5" style="padding:6px 13px;border-radius: 4px;">路局施工计划报告</a>
+            <div class="pull-right" style="margin-top:5px;">
+                <button id="kyjhBtn" type="button" class="btn btn-success paddingleftright5" style="padding:6px 13px;border-radius: 4px;">路局客运<br/>计划编制</button>
+                <button id="sgjhBtn" type="button" class="btn btn-success paddingleftright5" style="padding:6px 13px;border-radius: 4px;">路局施工<br/>计划报告</button>
                 <%--
                 <!-- 已登录用户 -->
                 <shiro:authenticated>
