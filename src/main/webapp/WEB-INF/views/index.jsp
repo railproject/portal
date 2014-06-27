@@ -77,8 +77,10 @@
     <div class="row">
         <div class="pull-left logo_name"><img src="${ctx}/assets/img/login-logo.png" height="50px"> </div>
         <div class="col-md-4 col-sm-4 col-xs-4 pull-right">
-            <div class="btn-group pull-right" style="margin-top:15px;">
-                <a type="button" target="_blank" href="http://10.1.186.115:8090/trainplan/login" class="btn btn-success paddingleftright5" style="padding:6px 13px;border-radius: 4px;">客调系统</a>
+            <div class="pull-right" style="margin-top:15px;">
+                <a type="button" target="_blank" href="http://10.1.186.115:8090/trainplan/login" class="btn btn-success paddingleftright5" style="padding:6px 13px;border-radius: 4px;">路局客运计划编制</a>
+                <a type="button" target="_blank" href="http://10.1.191.135:7003/sgdd" class="btn btn-success paddingleftright5" style="padding:6px 13px;border-radius: 4px;">路局施工计划报告</a>
+                <%--
                 <!-- 已登录用户 -->
                 <shiro:authenticated>
                     <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" style="padding:6px 13px; border-radius: 4px; width: 120px;margin-left: 20px;">
@@ -98,6 +100,7 @@
                 <shiro:notAuthenticated>
                     <button class="btn btn-warning" type="button" id="indexLoginBtn" style="padding:6px 13px; border-radius: 4px; width: 100px;margin-left: 20px;">登&nbsp;录</button>
                 </shiro:notAuthenticated>
+                --%>
             </div>
             <!--btn-group-->
         </div>
@@ -130,7 +133,7 @@
             </li>
             <li><a href="http://10.1.191.99/jszl/htmlFrame/jszlIndex.htm" target="contentFrame" class="menu_one"><i class="fa fa-file"></i>技术资料 </a></li>
 
-            <shiro:authenticated>
+            <%--<shiro:authenticated>--%>
                 <li><a target="contentFrame" class="menu_one"><i class="fa fa-road"></i>客运列车<i class="fa fa-caret-down pull-right"></i> </a>
                     <ul class="second-menu">
 
@@ -169,7 +172,7 @@
                     </ul>
                 </li> --%>
 
-            </shiro:authenticated>
+            <%--</shiro:authenticated>--%>
         </ul>
     </nav>
 </div>
