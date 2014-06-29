@@ -100,6 +100,7 @@
 	</filter-mapping> -->
 
 	<!-- Shiro Security filter -->
+<!--
 	<filter>
 		<filter-name>shiroFilter</filter-name>
 		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
@@ -110,6 +111,7 @@
 		<dispatcher>REQUEST</dispatcher>
 		<dispatcher>FORWARD</dispatcher>
 	</filter-mapping>
+-->
 
 
 <!--
