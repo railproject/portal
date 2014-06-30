@@ -84,7 +84,7 @@
         <div class="pull-left logo_name"><img src="${ctx}/assets/img/login-logo.png" height="50px"> </div>
         <div class="col-md-4 col-sm-4 col-xs-4 pull-right">
             <div class="pull-right" style="margin-top:5px;">
-                <button id="kyjhBtn" type="button" class="btn btn-success paddingleftright5" style="padding:6px 13px;border-radius: 4px;">路局客运<br/>计划编制</button>
+                <button id="kyjhBtn" type="button" class="btn btn-success paddingleftright5" style="padding:6px 13px;border-radius: 4px; margin-right: 25px">路局客运<br/>计划编制</button>
                 <button id="sgjhBtn" type="button" class="btn btn-success paddingleftright5" style="padding:6px 13px;border-radius: 4px;">路局施工<br/>计划报告</button>
                 <%--
                 <!-- 已登录用户 -->
