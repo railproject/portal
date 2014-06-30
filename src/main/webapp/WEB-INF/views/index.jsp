@@ -125,9 +125,9 @@
             <li>
                 <a target="contentFrame" class="menu_one"><i class="fa fa-bar-chart-o"></i>计划查询<i class="fa fa-caret-down pull-right"></i></a>
                 <ul>
-                    <li><a href="http://10.1.186.116:8090/dashboard/kanban/railline_sf.html" target="contentFrame"><i class="fa fa-level-down"></i>局别始发汇总</a></li>
-                    <li><a href="http://10.1.186.116:8090/dashboard/kanban/railline_jr.html" target="contentFrame"><i class="fa fa-level-up"></i>局别接入汇总</a></li>
-                    <li><a href="${ctx}/default/transfer/planReviewLines" target="contentFrame"><i class="fa fa-search"></i>日计划查询</a></li>
+                    <li><a href="http://10.1.186.116:8090/dashboard/kanban/railline_sf.html" target="contentFrame"><i class="fa fa-level-down"></i>始发统计</a></li>
+                    <li><a href="http://10.1.186.116:8090/dashboard/kanban/railline_jr.html" target="contentFrame"><i class="fa fa-level-up"></i>接入统计</a></li>
+                    <li><a href="${ctx}/default/transfer/planReviewLines" target="contentFrame"><i class="fa fa-search"></i>明细查询</a></li>
                 </ul>
             </li>
             <li>
@@ -142,28 +142,7 @@
             <%--<shiro:authenticated>--%>
                 <li><a target="contentFrame" class="menu_one"><i class="fa fa-road"></i>客运列车<i class="fa fa-caret-down pull-right"></i> </a>
                     <ul class="second-menu">
-
-                        <li><a href="${ctx}/audit" target="contentFrame"><i class="fa fa-external-link"></i>发布计划</a></li>
-
-                        <li><a target="contentFrame"><i class="fa fa-pencil"></i>编制计划<i class="fa fa-caret-right pull-right"></i></a>
-                            <ul class="third-menu">
-
-                                <li><a href="${ctx}/runPlan" target="contentFrame"><i class="fa fa-list-alt"></i>显示维护</a></li>
-                                <li><a href="${ctx}/default/transfer/planReviewAll" target="contentFrame"><i class="fa fa-list-ol"></i>汇总统计</a></li>
-                                <li><a href="${ctx}/default/transfer/planReview" target="contentFrame"><i class="fa fa-eye"></i>单天上图</a></li>
-                                <li><a href="${ctx}/default/transfer/planRunlineBatch" target="contentFrame"><i class="fa fa-external-link"></i>多天上图</a></li>
-                            </ul>
-                        </li>
-
-                        <li><a target="contentFrame"><i class="fa fa-list-alt"></i>管理基本交路<i class="fa fa-caret-right pull-right"></i></a>
-                            <ul class="third-menu">
-                                <li><a href="${ctx}/cross" target="contentFrame"><i class="fa fa-pencil"></i>对数表管理</a>
-                                <li><a href="${ctx}/cross/unit" target="contentFrame"><i class="fa fa-retweet"></i>基本交路单元管理</a></li>
-                            </ul>
-                        </li>
-
-                        <li><a href="${ctx}/default/transfer/planDesign" target="contentFrame"><i class="fa fa-sign-out"></i>启用新图</a></li>
-
+                        <li><a href="${ctx}/default/transfer/planReviewAll" target="contentFrame"><i class="fa fa-list-ol"></i>开行计划汇总统计</a></li>
                     </ul>
                 </li>
                 <li><a href="${ctx}/default/transfer/planConstruction" class="menu_one" target="contentFrame"><i class="fa fa-truck"></i>货运列车 </a></li>
