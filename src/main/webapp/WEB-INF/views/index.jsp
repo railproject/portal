@@ -9,6 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>铁总计划运行图平台</title>
+    <link rel="shortcut icon" href="${ctx}/assets/img/favicon.ico" />
     <link href="${ctx}/assets/css/custom-bootstrap.css" rel="stylesheet">
     <!--font-awesome-->
     <link  type="text/css" rel="stylesheet" href="${ctx}/assets/css/font-awesome.min.css"/>
