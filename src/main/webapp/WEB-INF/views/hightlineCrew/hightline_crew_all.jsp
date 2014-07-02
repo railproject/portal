@@ -116,8 +116,8 @@ String basePath = request.getContextPath();
               </tr>
             </thead>
             <tbody data-bind="foreach: hightLineCrewRows.rows">
-              <tr>
-                <td data-bind=" text: ($index() + 1)"></td>
+              <tr data-bind="click: $parent.setCurrentRec,style:{color: $parent.currentRowCrewHighlineId() == crewHighlineId ? 'blue':''}">
+                <td data-bind=" text: ($parent.hightLineCrewRows.currentIndex()+$index() + 1)"></td>
                 <td data-bind=" text: crewTypeName"></td>
                 <td data-bind=" text: crewDate"></td>
                 <td data-bind=" text: crewCross, attr:{title: crewCross}"></td>
