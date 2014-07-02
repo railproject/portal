@@ -171,18 +171,7 @@ public class HighLineCrewService {
 	 */
 	@SuppressWarnings("unchecked")
 	public List<HighLineCrewInfo> getHighlineCrewBaseInfo(Map<String,Object> reqMap){
-		String crewStartDate = StringUtil.objToStr(reqMap.get("crewStartDate"));
-    	String crewEndDate = StringUtil.objToStr(reqMap.get("crewEndDate"));
-		if(crewStartDate != null && !"".equals(crewStartDate)){
-			//将日期格式yyyy-MM-dd转换成yyyyMMdd格式
-    		crewStartDate = DateUtil.getFormateDayShort(crewStartDate);
-    		reqMap.put("crewStartDate", crewStartDate);
-    	}
-    	if(crewEndDate != null && !"".equals(crewEndDate)){
-    		crewEndDate = DateUtil.getFormateDayShort(crewEndDate);
-    		reqMap.put("crewEndDate", crewEndDate);
-    	}
-		return baseDao.selectListBySql(Constants.HIGHLINECREWDAO_GET_HIGHLINE_CREW_BASE_INFO, reqMap);
+			return baseDao.selectListBySql(Constants.HIGHLINECREWDAO_GET_HIGHLINE_CREW_BASE_INFO, reqMap);
 	}
 	
 }

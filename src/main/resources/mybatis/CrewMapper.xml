@@ -244,7 +244,7 @@
 				<if test="crewType !=null and crewType !='' ">
 				 AND CREW_TYPE=#{crewType}
 				</if>
-			    <if test="trainNbr !=null and trainNbr !=''">
+			    <if test="trainNbr !=null and trainNbr !='' ">
 			     AND CREW_CROSS LIKE #{trainNbr}
 		        </if>
                 ORDER BY RECORD_TIME
@@ -277,14 +277,14 @@
     </select>
     
       <select id="getHighlineCrewBaseInfoForPage_COUNT" parameterType="map" resultType="java.lang.Integer">
-    	SELECT COUNT(HIGHLINE_CREW_ID) FROM HIGHLINE_CREW WHERE 1=1 
+    	SELECT COUNT(HIGHLINE_CREW_ID) FROM HIGHLINE_CREW WHERE 1=1 AND SUBMIT_TYPE = 1
    	        <if test="crewStartDate !=null and crewStartDate !='' ">
 			  AND CREW_DATE >=#{crewStartDate} 
 			</if>
 			<if test="crewEndDate !=null and crewEndDate !='' ">
 			 AND CREW_DATE &lt;=#{crewEndDate}
 			</if>
-			<if test="crewType != 'all'">
+			<if test="crewType != 'all' ">
 			  AND CREW_TYPE=#{crewType}
 			</if>
 			<if test="crewBureau != 'all' ">
@@ -334,7 +334,7 @@
 				<if test="crewEndDate !=null and crewEndDate !='' ">
 				 AND CREW_DATE &lt;=#{crewEndDate}
 				</if>
-				<if test="crewType != 'all'">
+				<if test="crewType != 'all' ">
 				  AND CREW_TYPE=#{crewType}
 				</if>
 				<if test="crewBureau != 'all' ">
@@ -378,13 +378,13 @@
 				  SUBMIT_TYPE AS submitType
 				
 				FROM HIGHLINE_CREW WHERE 1=1  AND SUBMIT_TYPE = 1
-				<if test="crewStartDate !=null and crewStartDate != ''">
+				<if test="crewStartDate !=null and crewStartDate != '' ">
 				  AND CREW_DATE >=#{crewStartDate} 
 				</if>
 				<if test="crewEndDate !=null and crewEndDate !='' ">
 				 AND CREW_DATE &lt;=#{crewEndDate}
 				</if>
-				<if test="crewType != 'all'">
+				<if test="crewType != 'all' ">
 				  AND CREW_TYPE=#{crewType}
 				</if>
 				<if test="crewBureau != 'all' ">
@@ -393,8 +393,8 @@
 				<if test="recordPeopleOrg != 'all' ">
 				  AND  RECORD_PEOPLE_ORG=#{recordPeopleOrg}
 				</if>
-				<if test="trainNbr !=null and trainNbr !='' ">
-				  AND CREW_CROSS LIKE '%${trainNbr}%'
+				<if test="crewCross !=null and crewCross !='' ">
+				  AND CREW_CROSS LIKE '%${crewCross}%'
 				</if>
 				<if test="name !=null and name !='' ">
 				AND (NAME1 LIKE '%${name}%' OR NAME2 LIKE '%${name}%' )
