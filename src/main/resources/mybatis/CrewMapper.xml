@@ -349,6 +349,7 @@
 				<if test="name !=null and name !='' ">
 				AND (NAME1 LIKE '%${name}%' OR NAME2 LIKE '%${name}%' )
 				</if>
+				ORDER BY CREW_TYPE,CREW_DATE,CREW_CROSS
 			)M
 		) P
 		WHERE P.NUM>=${rownumstart} AND P.NUM &lt;=${rownumend}
