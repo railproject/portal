@@ -144,6 +144,7 @@
                 <li><a target="contentFrame" class="menu_one"><i class="fa fa-road"></i>客运列车<i class="fa fa-caret-down pull-right"></i> </a>
                     <ul class="second-menu">
                         <li><a href="${ctx}/default/transfer/planReviewAll" target="contentFrame"><i class="fa fa-list-ol"></i>开行计划汇总统计</a></li>
+                        <li><a href="${ctx}/highLine/vehicleSearch" target="contentFrame"><i class="fa fa-list-ol"></i>高铁交路/车底计划查询</a></li>
                     </ul>
                 </li>
                 <li><a href="${ctx}/default/transfer/planConstruction" class="menu_one" target="contentFrame"><i class="fa fa-truck"></i>货运列车 </a></li>

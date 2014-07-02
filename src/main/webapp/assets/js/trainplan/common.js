@@ -194,7 +194,7 @@ $(function(){
 	$("body").append(common_login_div_str);
 	 
 	var common_confirm_div_str = ""
-		+ '<div class="modal fade" id="_confirm_div" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">'
+		+ '<div class="modal fade" id="_confirm_div" tabindex="-1" style="z-index:9999" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">'
 		+ "	<div class='modal-dialog'>"
 		+ "		<div class='modal-content'>"
 		+ "			<div class='modal-header'>"
@@ -271,7 +271,7 @@ $(function(){
 		锁屏modal
 	 */
 	var _common_div_screen_modal = ""
-	+ "<div class='modal fade active' id='common_div_screen_modal' tabindex='-1' data-backdrop='static' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true'>"
+	+ "<div class='modal fade active' id='common_div_screen_modal' tabindex='-1'  style='z-index:19999' data-backdrop='static' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true'>"
 	+ "	<div class='modal-dialog'>"
 	+ "	<div class='modal-content'>"
 	+ "	<!-- <div class='modal-header'></div>-->"
@@ -290,21 +290,30 @@ $(function(){
 });
 
 
-
+var commonLockNum = 1;
 /**
  * 屏幕解锁
  */
 function commonJsScreenUnLock() {
-	//屏幕解锁 Screen Lock FX screen unlock 
-	$("#common_div_screen_modal").modal('hide');
+	//屏幕解锁 Screen Lock FX screen unlock  
+	commonLockNum--;
+	if(commonLockNum > 0){
+	}else{
+		$("#common_div_screen_modal").modal('hide');
+	}  
 };
 
 
 /**
  * 屏幕锁定
  */
-function commonJsScreenLock() {
-	//屏幕锁定 
+function commonJsScreenLock(loackNum) {
+	//屏幕锁定  
+	if(commonLockNum == null){ 
+		commonLockNum = 1; 
+	}else{
+		commonLockNum = loackNum;
+	}  
 	$("#common_div_screen_modal").modal('show').css({
         "margin-top": "230px"
     });
@@ -471,3 +480,67 @@ function _chooseRoleType(type,path){
 		}
 	});
 }
+
+function modelDialog(url, options) {
+    this._default = {
+        width: (window.screen.availWidth-10) * 0.8,
+        height: (window.screen.availHeight-30) * 0.7,
+        title: ""
+    }
+
+    this.width = options.width || this._default.width;
+    this.height = options.height || this._default.height;
+    this.title = options.title || this._default.title;
+
+    var _dialog = ""
+    + "<div class='modal fade' tabindex='-1' data-backdrop='static' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true'>"
+    + "<div class='modal-dialog'>"
+    + "<div class='modal-content' style='height: " + this.height + "px; width:" + this.width + "px'>"
+    + "	       <div class='modal-header' style='padding: 5px 10px 5px 10px'>"
+    + "            <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-hidden=\"true\">×</button>"
+    + "            <h4 class=\"modal-title\" id=\"myModalLabel\">" + this.title + "</h4>"
+    + "        </div>"
+    + "        <div class='modal-body'>"
+    + "            <div>"
+    + "                <iframe src='" + url + "' width='100%' height='100%' marginWidth=0 frameSpacing=0 marginHeight=0 scrolling=auto frameborder='0px'></iframe>"
+    + "            </div>"
+    + "        </div>"
+    + "	<!-- <div class='modal-footer'></div>-->"
+    + "    </div>"
+    + "	</div>"
+    + "</div>";
+    $(_dialog).modal('show').css({
+        'margin-top': (window.screen.availHeight-30-this.height)/2,
+        'margin-left': -(window.screen.availWidth-10-this.width) * 2
+    });
+}
+
+function dialog(page, options) {
+    this._default = {
+        autoOpen: false,
+        height: $(window).height()/2,
+        width: 800,
+        title: "",
+        position: [(window.screen.availWidth-10-this.width)/2,  (window.screen.availHeight-30-this.height)/2],
+        maxWidth: $(window).width(),
+        maxHeight: $(window).height(),
+        model: true
+    };
+
+    var defaultOptions = {
+        autoOpen: options.autoOpen || this._default.autoOpen,
+        height: options.height || this._default.height,
+        width: options.width || this._default.width,
+        title: options.title || this._default.title,
+        position: options.position || this._default.position,
+        maxWidth: this._default.maxWidth,
+        maxHeight: this._default.maxHeight,
+        closeText: "关闭",
+        model: options.model || this._default.model,
+        close: options.close || null
+    };
+    var $dialog = $('<div class="dialog" style="overflow: hidden; z-index: 999"></div>')
+        .html('<iframe src="' + page + '" width="100%" height="100%" marginWidth=0 frameSpacing=0 marginHeight=0 scrolling=auto frameborder="0px"></iframe>')
+        .dialog(defaultOptions);
+    return $dialog;
+};
