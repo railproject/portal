@@ -38,7 +38,7 @@ var HightLineCrewSjPage = function () {
 		_self.bureauOption = ko.observable();	//路局下拉框选项
 		_self.orgOption = ko.observable();	//部门下拉框选项
 		_self.crewPeopleName = ko.observable("");		//乘务员姓名
-		
+
 
 		/**
 		 * 初始化查询条件值
@@ -145,7 +145,8 @@ var HightLineCrewSjPage = function () {
 		var _self = this;
 		_self.searchModle = ko.observable(new SearchModle());		//页面查询对象
 		_self.hightLineCrewRows = new PageModle(200, loadHightLineCrewSjDataForPage);		//页面乘务计划列表对象
-		
+
+		_self.currentRowCrewHighlineId = ko.observable();//列表行id
 		
 		/**
 		 * 初始化查询条件
@@ -159,6 +160,7 @@ var HightLineCrewSjPage = function () {
 		 * 查询按钮事件
 		 */
 		_self.queryList = function(){
+			_self.currentRowCrewHighlineId("");
 			commonJsScreenLock();
 
 			//2.查询乘务计划信息
@@ -255,6 +257,16 @@ var HightLineCrewSjPage = function () {
 					
 			window.open(_url);
 		};
+		
+		
+
+		/**
+		 * 列表行点击事件
+		 */
+		_self.setCurrentRec = function(row) {
+			_self.currentRowCrewHighlineId(row.crewHighlineId);
+		};
+		
 		
 		
 		
