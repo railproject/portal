@@ -65,7 +65,7 @@
 		CHECK_PEOPLE AS checkPeople,
 		CHECK_PEOPLE_ORG AS checkPeopleOrg,
 		CHECK_TIME AS checkTime
-      FROM HIGHLINE_CROSS WHERE CROSS_START_DATE = #{crossStartDate}
+      FROM HIGHLINE_CROSS WHERE CROSS_START_DATE = #{crossStartDate} ORDER BY CROSS_NAME
    </select>
 
    <select id="getHighlineCrossTrainList"  parameterType="map" resultType="org.railway.com.portal.entity.HighLineCrossTrainInfo">
