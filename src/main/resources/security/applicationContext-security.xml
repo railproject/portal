@@ -39,6 +39,7 @@
                 /message/** = anon
                 /dwr/** = anon
                 /jbtcx/** = anon
+                 /highLine/** = anon
 				/default/transfer/planReviewLines = anon
 				/construction/** = anon
                 /** = authc
