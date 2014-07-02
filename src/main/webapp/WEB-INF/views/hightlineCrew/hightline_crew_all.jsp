@@ -104,7 +104,6 @@ String basePath = request.getContextPath();
                 <th rowspan="2" class="text-center" style="vertical-align: middle">路局</th>
                 <th rowspan="2" class="text-center" style="vertical-align: middle">部门</th>
                 <th rowspan="2" class="text-center" style="vertical-align: middle">备注</th>
-                <th rowspan="2" class="text-center" style="vertical-align: middle;width:80px">提交<br>状态</th>
               </tr>
               <tr>
                 <th class="text-center">姓名</th>
@@ -131,7 +130,6 @@ String basePath = request.getContextPath();
                 <td data-bind=" text: crewBureau"></td>
                 <td data-bind=" text: recordPeopleOrg, attr:{title: recordPeopleOrg}"></td>
                 <td data-bind=" text: note, attr:{title: note}"></td>
-                <td data-bind="html : submitTypeStr"></td>
               </tr>
             </tbody>
           </table>
