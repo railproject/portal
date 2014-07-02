@@ -1,19 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
     pageEncoding="utf-8"%>
-<%@ page import="org.apache.shiro.SecurityUtils,org.railway.com.trainplan.service.ShiroRealm,java.util.List" %>
 <% 
-/* ShiroRealm.ShiroUser user = (ShiroRealm.ShiroUser)SecurityUtils.getSubject().getPrincipal();
-
-boolean isZgsUser = false;	//当前用户是否为总公司用户
-if (user!=null && user.getBureau()==null) {
-	isZgsUser = true;
-} */
-/* String currentUserBureau = "";
-List<String> permissionList = "";
-String userRolesString = "";
-for(String p : permissionList){
-	userRolesString += userRolesString.equals("") ? p : "," + p;
-}  */
+ 
 String basePath = request.getContextPath();
 %>
 <!DOCTYPE HTML>
