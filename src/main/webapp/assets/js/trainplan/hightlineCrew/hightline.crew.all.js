@@ -213,6 +213,7 @@ var HightLineCrewSjPage = function () {
 									obj.crewTypeName = "";
 								}
 								
+								
 								rows.push(obj);
 							});
 							_self.hightLineCrewRows.loadPageRows(result.data.totalRecord, rows);

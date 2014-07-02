@@ -747,7 +747,6 @@ public class HighLineCrewController {
     
     
     
-
 	/**
 	 * 导出全部乘务计划信息excel
 	 * @param request
@@ -762,21 +761,21 @@ public class HighLineCrewController {
 			@PathParam("recordPeopleOrg") String recordPeopleOrg,@PathParam("name") String name,
 			HttpServletRequest request, HttpServletResponse response){
 		try {
-
-	    	//格式化时间
-			String _crewStartDate = DateUtil.getFormateDayShort(crewStartDate);
-			String _crewEndDate = DateUtil.getFormateDayShort(crewEndDate);
-			
+			String dateTitleName = "";
 			Map<String,Object> reqMap = new HashMap<String,Object>();
 			reqMap.put("crewType", crewType);
 			if (trainNbr!=null && !"".equals(trainNbr.trim())) {
 				reqMap.put("crewCross", trainNbr.trim());
 			}
 			if (crewStartDate!=null && !"".equals(crewStartDate.trim())) {
-				reqMap.put("crewStartDate", crewStartDate.trim());
+				dateTitleName += crewStartDate;
+				reqMap.put("crewStartDate", DateUtil.getFormateDayShort(crewStartDate.trim()));
 			}
 			if (crewEndDate!=null && !"".equals(crewEndDate.trim())) {
-				reqMap.put("crewEndDate", crewEndDate.trim());
+				reqMap.put("crewEndDate", DateUtil.getFormateDayShort(crewEndDate.trim()));
+				if (!crewStartDate.equals(crewEndDate)) {
+					dateTitleName += "~"+crewEndDate;
+				}
 			}
 			reqMap.put("crewBureau", crewBureau);
 			reqMap.put("recordPeopleOrg", recordPeopleOrg);
@@ -784,12 +783,11 @@ public class HighLineCrewController {
 				reqMap.put("name", name.trim());
 			}
 			
-			System.err.println("~~~~~~ exportAllCrewTypeExcel reqMap="+reqMap);
 			
 			response.setCharacterEncoding("UTF-8");
 			response.setContentType("application/vnd.ms-excel");
 			HSSFWorkbook workBook = new HSSFWorkbook();// 创建 一个excel文档对象
-			HSSFSheet sheet = workBook.createSheet("乘务信息_"+_crewStartDate+"~"+_crewEndDate);// 创建一个工作薄对象
+			HSSFSheet sheet = workBook.createSheet("乘务信息_"+dateTitleName);// 创建一个工作薄对象
 			
 			
 			sheet.setColumnWidth((short)0, (short)2000);
@@ -797,15 +795,16 @@ public class HighLineCrewController {
 			sheet.setColumnWidth((short)2, (short)4000);
 			sheet.setColumnWidth((short)3, (short)7000);
 			sheet.setColumnWidth((short)4, (short)4000);
-			sheet.setColumnWidth((short)5, (short)4500);
+			sheet.setColumnWidth((short)5, (short)7000);
 			sheet.setColumnWidth((short)6, (short)4000);
 			sheet.setColumnWidth((short)7, (short)4000);
-			sheet.setColumnWidth((short)8, (short)4500);
+			sheet.setColumnWidth((short)8, (short)4000);
 			sheet.setColumnWidth((short)9, (short)4000);
 			sheet.setColumnWidth((short)10, (short)4000);
 			sheet.setColumnWidth((short)11, (short)4000);
-			sheet.setColumnWidth((short)12, (short)8000);
-			sheet.setColumnWidth((short)13, (short)10000);
+			sheet.setColumnWidth((short)12, (short)4000);
+			sheet.setColumnWidth((short)13, (short)8000);
+			sheet.setColumnWidth((short)14, (short)10000);
 			
 			
 			HSSFCellStyle style = workBook.createCellStyle();
@@ -847,7 +846,7 @@ public class HighLineCrewController {
 			HSSFCell titleCell = row0.createCell((short)0);
 			titleCell.setCellStyle(styleTitle);
 			titleCell.setCellType(HSSFCell.CELL_TYPE_STRING);
-			titleCell.setCellValue(_crewStartDate+"~"+_crewEndDate+"乘务计划");
+			titleCell.setCellValue(dateTitleName+"乘务计划");
 			
 			
 			
@@ -860,53 +859,58 @@ public class HighLineCrewController {
 			indexCell.setCellType(HSSFCell.CELL_TYPE_STRING);
 			indexCell.setCellStyle(styleTitle);
 			indexCell.setCellValue("序号");
+			// 乘务类型
+			HSSFCell crewTypeCell = row1.createCell((short)1);
+			crewTypeCell.setCellType(HSSFCell.CELL_TYPE_STRING);
+			crewTypeCell.setCellStyle(styleTitle);
+			crewTypeCell.setCellValue("乘务类型");
+			// 日期
+			HSSFCell crewDateCell = row1.createCell((short)2);
+			crewDateCell.setCellType(HSSFCell.CELL_TYPE_STRING);
+			crewDateCell.setCellStyle(styleTitle);
+			crewDateCell.setCellValue("日期");
 			// 乘务交路
-			HSSFCell crewCrossCell = row1.createCell((short)1);
+			HSSFCell crewCrossCell = row1.createCell((short)3);
 			crewCrossCell.setCellType(HSSFCell.CELL_TYPE_STRING);
 			crewCrossCell.setCellStyle(styleTitle);
 			crewCrossCell.setCellValue("乘务交路");
 			// 车队组号
-			HSSFCell crewGroupCell = row1.createCell((short)2);
+			HSSFCell crewGroupCell = row1.createCell((short)4);
 			crewGroupCell.setCellType(HSSFCell.CELL_TYPE_STRING);
 			crewGroupCell.setCellStyle(styleTitle);
-			crewGroupCell.setCellValue("车队组号");
+			crewGroupCell.setCellValue("乘务组编号");
 			// 经由铁路线
-			HSSFCell throughLineCell = row1.createCell((short)3);
+			HSSFCell throughLineCell = row1.createCell((short)5);
 			throughLineCell.setCellType(HSSFCell.CELL_TYPE_STRING);
 			throughLineCell.setCellStyle(styleTitle);
 			throughLineCell.setCellValue("经由铁路线");
-			// 乘务类型
-			HSSFCell crewTypeCell = row1.createCell((short)4);
-			crewTypeCell.setCellType(HSSFCell.CELL_TYPE_STRING);
-			crewTypeCell.setCellStyle(styleTitle);
-			crewTypeCell.setCellValue("乘务类型");
 			// 司机1
-			HSSFCell sj1Cell = row1.createCell((short)5);
+			HSSFCell sj1Cell = row1.createCell((short)6);
 			sj1Cell.setCellType(HSSFCell.CELL_TYPE_STRING);
 			sj1Cell.setCellStyle(styleTitle);
 			sj1Cell.setCellValue("乘务员1");//乘务类型（1车长、2司机、3机械师）
-			HSSFCell blankCell = row1.createCell((short)6);
-			HSSFCell blankCell1 = row1.createCell((short)7);
+			HSSFCell blankCell = row1.createCell((short)7);
+			HSSFCell blankCell1 = row1.createCell((short)8);
 			// 司机2
-			HSSFCell sj2Cell = row1.createCell((short)8);
+			HSSFCell sj2Cell = row1.createCell((short)9);
 			sj2Cell.setCellType(HSSFCell.CELL_TYPE_STRING);
 			sj2Cell.setCellStyle(styleTitle);
 			sj2Cell.setCellValue("乘务员2");//乘务类型（1车长、2司机、3机械师）
-			HSSFCell blankCell8 = row1.createCell((short)9);
-			HSSFCell blankCell9 = row1.createCell((short)10);
+			HSSFCell blankCell8 = row1.createCell((short)10);
+			HSSFCell blankCell9 = row1.createCell((short)11);
 
 			// 路局
-			HSSFCell crewBureauCell = row1.createCell((short)11);
+			HSSFCell crewBureauCell = row1.createCell((short)12);
 			crewBureauCell.setCellType(HSSFCell.CELL_TYPE_STRING);
 			crewBureauCell.setCellStyle(styleTitle);
 			crewBureauCell.setCellValue("路局");
 			// 填报部门
-			HSSFCell recordPeopleOrgCell = row1.createCell((short)12);
+			HSSFCell recordPeopleOrgCell = row1.createCell((short)13);
 			recordPeopleOrgCell.setCellType(HSSFCell.CELL_TYPE_STRING);
 			recordPeopleOrgCell.setCellStyle(styleTitle);
 			recordPeopleOrgCell.setCellValue("填报部门");
 			// 备注
-			HSSFCell noteCell = row1.createCell((short)13);
+			HSSFCell noteCell = row1.createCell((short)14);
 			noteCell.setCellType(HSSFCell.CELL_TYPE_STRING);
 			noteCell.setCellStyle(styleTitle);
 			noteCell.setCellValue("备注");
@@ -921,39 +925,40 @@ public class HighLineCrewController {
 			HSSFCell blankRowCell2 = row2.createCell((short)2);
 			HSSFCell blankRowCell3 = row2.createCell((short)3);
 			HSSFCell blankRowCell4 = row2.createCell((short)4);
+			HSSFCell blankRowCell5 = row2.createCell((short)5);
 			//姓名1
-			HSSFCell name1Cell = row2.createCell((short)5);
+			HSSFCell name1Cell = row2.createCell((short)6);
 			name1Cell.setCellType(HSSFCell.CELL_TYPE_STRING);
 			name1Cell.setCellStyle(styleTitle);
 			name1Cell.setCellValue("姓名");
 			//电话1
-			HSSFCell tel1Cell = row2.createCell((short)6);
+			HSSFCell tel1Cell = row2.createCell((short)7);
 			tel1Cell.setCellType(HSSFCell.CELL_TYPE_STRING);
 			tel1Cell.setCellStyle(styleTitle);
 			tel1Cell.setCellValue("电话");
 			//政治面貌1
-			HSSFCell identity1Cell = row2.createCell((short)7);
+			HSSFCell identity1Cell = row2.createCell((short)8);
 			identity1Cell.setCellType(HSSFCell.CELL_TYPE_STRING);
 			identity1Cell.setCellStyle(styleTitle);
 			identity1Cell.setCellValue("政治面貌");
 			//姓名2
-			HSSFCell name2Cell = row2.createCell((short)8);
+			HSSFCell name2Cell = row2.createCell((short)9);
 			name2Cell.setCellType(HSSFCell.CELL_TYPE_STRING);
 			name2Cell.setCellStyle(styleTitle);
 			name2Cell.setCellValue("姓名");
 			//电话2
-			HSSFCell tel2Cell = row2.createCell((short)9);
+			HSSFCell tel2Cell = row2.createCell((short)10);
 			tel2Cell.setCellType(HSSFCell.CELL_TYPE_STRING);
 			tel2Cell.setCellStyle(styleTitle);
 			tel2Cell.setCellValue("电话");
 			//政治面貌2
-			HSSFCell identity2Cell = row2.createCell((short)10);
+			HSSFCell identity2Cell = row2.createCell((short)11);
 			identity2Cell.setCellType(HSSFCell.CELL_TYPE_STRING);
 			identity2Cell.setCellStyle(styleTitle);
 			identity2Cell.setCellValue("政治面貌");
-			HSSFCell blankRowCell10 = row2.createCell((short)11);
-			HSSFCell blankRowCell12 = row2.createCell((short)12);
-			HSSFCell blankRowCell13 = row2.createCell((short)13);
+			HSSFCell blankRowCell10 = row2.createCell((short)12);
+			HSSFCell blankRowCell12 = row2.createCell((short)13);
+			HSSFCell blankRowCell13 = row2.createCell((short)14);
 
 			
 			//查询乘务上报信息
@@ -971,23 +976,8 @@ public class HighLineCrewController {
 					indexCellFor.setCellStyle(styleTitle);
 					indexCellFor.setCellValue(i+1);
 
-					// 乘务交路
-					HSSFCell crewCrossCellFor = rowX.createCell((short)1);
-					crewCrossCellFor.setCellType(HSSFCell.CELL_TYPE_STRING);
-					crewCrossCellFor.setCellStyle(styleTitle);
-					crewCrossCellFor.setCellValue(obj.getCrewCross());
-					// 车队组号
-					HSSFCell crewGroupCellFor = rowX.createCell((short)2);
-					crewGroupCellFor.setCellStyle(styleTitle);
-					crewGroupCellFor.setCellType(HSSFCell.CELL_TYPE_STRING);
-					crewGroupCellFor.setCellValue(obj.getCrewGroup());
-					// 经由铁路线
-					HSSFCell throughLineCellFor = rowX.createCell((short)3);
-					throughLineCellFor.setCellType(HSSFCell.CELL_TYPE_STRING);
-					throughLineCellFor.setCellStyle(styleTitle);
-					throughLineCellFor.setCellValue(obj.getThroughLine());
 					// 乘务类型	1车长、2司机、3机械师）
-					HSSFCell cerwTypeCellFor = rowX.createCell((short)4);
+					HSSFCell cerwTypeCellFor = rowX.createCell((short)1);
 					cerwTypeCellFor.setCellType(HSSFCell.CELL_TYPE_STRING);
 					cerwTypeCellFor.setCellStyle(styleTitle);
 					if ("1".equals(obj.getCrewType())) {
@@ -997,50 +987,71 @@ public class HighLineCrewController {
 					}else if ("3".equals(obj.getCrewType())) {
 						cerwTypeCellFor.setCellValue("机械师");
 					}
+					// 日期
+					HSSFCell crewDateCellFor = rowX.createCell((short)2);
+					crewDateCellFor.setCellType(HSSFCell.CELL_TYPE_STRING);
+					crewDateCellFor.setCellStyle(styleTitle);
+					crewDateCellFor.setCellValue(obj.getCrewDate());
+
+					// 乘务交路
+					HSSFCell crewCrossCellFor = rowX.createCell((short)3);
+					crewCrossCellFor.setCellType(HSSFCell.CELL_TYPE_STRING);
+					crewCrossCellFor.setCellStyle(styleTitle);
+					crewCrossCellFor.setCellValue(obj.getCrewCross());
+					// 车队组号
+					HSSFCell crewGroupCellFor = rowX.createCell((short)4);
+					crewGroupCellFor.setCellStyle(styleTitle);
+					crewGroupCellFor.setCellType(HSSFCell.CELL_TYPE_STRING);
+					crewGroupCellFor.setCellValue(obj.getCrewGroup());
+					// 经由铁路线
+					HSSFCell throughLineCellFor = rowX.createCell((short)5);
+					throughLineCellFor.setCellType(HSSFCell.CELL_TYPE_STRING);
+					throughLineCellFor.setCellStyle(styleTitle);
+					throughLineCellFor.setCellValue(obj.getThroughLine());
 					//姓名1
-					HSSFCell name1CellFor = rowX.createCell((short)5);
+					HSSFCell name1CellFor = rowX.createCell((short)6);
 					name1CellFor.setCellType(HSSFCell.CELL_TYPE_STRING);
 					name1CellFor.setCellStyle(styleTitle);
 					name1CellFor.setCellValue(obj.getName1());
 					//电话1
-					HSSFCell tel1CellFor = rowX.createCell((short)6);
+					HSSFCell tel1CellFor = rowX.createCell((short)7);
 					tel1CellFor.setCellType(HSSFCell.CELL_TYPE_STRING);
 					tel1CellFor.setCellStyle(styleTitle);
 					tel1CellFor.setCellValue(obj.getTel1());
 					//政治面貌1
-					HSSFCell identity1CellFor = rowX.createCell((short)7);
+					HSSFCell identity1CellFor = rowX.createCell((short)8);
 					identity1CellFor.setCellType(HSSFCell.CELL_TYPE_STRING);
 					identity1CellFor.setCellStyle(styleTitle);
 					identity1CellFor.setCellValue(obj.getIdentity1());
 					//姓名2
-					HSSFCell name2CellFor = rowX.createCell((short)8);
+					HSSFCell name2CellFor = rowX.createCell((short)9);
 					name2CellFor.setCellType(HSSFCell.CELL_TYPE_STRING);
 					name2CellFor.setCellStyle(styleTitle);
 					name2CellFor.setCellValue(obj.getName2());
 					//电话2
-					HSSFCell tel2CellFor = rowX.createCell((short)9);
+					HSSFCell tel2CellFor = rowX.createCell((short)10);
 					tel2CellFor.setCellType(HSSFCell.CELL_TYPE_STRING);
 					tel2CellFor.setCellStyle(styleTitle);
 					tel2CellFor.setCellValue(obj.getTel2());
 					//政治面貌2
-					HSSFCell identity2CellFor = rowX.createCell((short)10);
+					HSSFCell identity2CellFor = rowX.createCell((short)11);
 					identity2CellFor.setCellType(HSSFCell.CELL_TYPE_STRING);
 					identity2CellFor.setCellStyle(styleTitle);
 					identity2CellFor.setCellValue(obj.getIdentity2());
 
 					// 填报路局
-					HSSFCell crewBureauCellFor = rowX.createCell((short)11);
+					HSSFCell crewBureauCellFor = rowX.createCell((short)12);
 					crewBureauCellFor.setCellType(HSSFCell.CELL_TYPE_STRING);
 					crewBureauCellFor.setCellStyle(styleTitle);
 					crewBureauCellFor.setCellValue(obj.getCrewBureau());
 					// 填报部门
-					HSSFCell recordPeopleOrgCellFor = rowX.createCell((short)12);
+					HSSFCell recordPeopleOrgCellFor = rowX.createCell((short)13);
 					recordPeopleOrgCellFor.setCellType(HSSFCell.CELL_TYPE_STRING);
 					recordPeopleOrgCellFor.setCellStyle(styleTitle);
 					recordPeopleOrgCellFor.setCellValue(obj.getRecordPeopleOrg());
 					
 					//备注
-					HSSFCell noteCellFor = rowX.createCell((short)13);
+					HSSFCell noteCellFor = rowX.createCell((short)14);
 					noteCellFor.setCellType(HSSFCell.CELL_TYPE_STRING);
 					noteCellFor.setCellStyle(styleTitle);
 					noteCellFor.setCellValue(obj.getNote());
@@ -1049,21 +1060,22 @@ public class HighLineCrewController {
 			
 			
 			//行列合并	四个参数分别是：起始行，起始列，结束行，结束列
-			sheet.addMergedRegion(new Region((short)0, (short)0, (short)0, (short)10)); //标题  合并1行11列
+			sheet.addMergedRegion(new Region((short)0, (short)0, (short)0, (short)14)); //标题  合并1行11列
 			sheet.addMergedRegion(new Region((short)1, (short)0, (short)2, (short)0)); //序号  合并2行1列
-			sheet.addMergedRegion(new Region((short)1, (short)1, (short)2, (short)1)); //乘务交路  合并2行1列
-			sheet.addMergedRegion(new Region((short)1, (short)2, (short)2, (short)2)); //车队组号  合并2行1列
-			sheet.addMergedRegion(new Region((short)1, (short)3, (short)2, (short)3)); //经由铁路线  合并2行1列
-			sheet.addMergedRegion(new Region((short)1, (short)4, (short)2, (short)4)); //乘务类型  合并2行1列
-			sheet.addMergedRegion(new Region((short)1, (short)5, (short)1, (short)7)); //司机1  合并1行3列
-			sheet.addMergedRegion(new Region((short)1, (short)8, (short)1, (short)10)); //司机2  合并1行3列
-			sheet.addMergedRegion(new Region((short)1, (short)11, (short)2, (short)11)); //填报路局  合并2行1列
-			sheet.addMergedRegion(new Region((short)1, (short)12, (short)2, (short)12)); //填报部门  合并2行1列
-			sheet.addMergedRegion(new Region((short)1, (short)13, (short)2, (short)13)); //备注  合并2行1列
+			sheet.addMergedRegion(new Region((short)1, (short)1, (short)2, (short)1)); //乘务类型  合并2行1列
+			sheet.addMergedRegion(new Region((short)1, (short)2, (short)2, (short)2)); //日期  合并2行1列
+			sheet.addMergedRegion(new Region((short)1, (short)3, (short)2, (short)3)); //乘务交路  合并2行1列
+			sheet.addMergedRegion(new Region((short)1, (short)4, (short)2, (short)4)); //车队组号  合并2行1列
+			sheet.addMergedRegion(new Region((short)1, (short)5, (short)2, (short)5)); //经由铁路线  合并2行1列
+			sheet.addMergedRegion(new Region((short)1, (short)6, (short)1, (short)8)); //司机1  合并1行3列
+			sheet.addMergedRegion(new Region((short)1, (short)9, (short)1, (short)11)); //司机2  合并1行3列
+			sheet.addMergedRegion(new Region((short)1, (short)12, (short)2, (short)12)); //填报路局  合并2行1列
+			sheet.addMergedRegion(new Region((short)1, (short)13, (short)2, (short)13)); //填报部门  合并2行1列
+			sheet.addMergedRegion(new Region((short)1, (short)14, (short)2, (short)14)); //备注  合并2行1列
 			
 			
 			
-			String filename = this.encodeFilename("乘务信息_"+_crewStartDate+"~"+_crewEndDate+".xls", request);
+			String filename = this.encodeFilename("乘务信息_"+dateTitleName+".xls", request);
 			response.setHeader("Content-disposition", "attachment;filename=" + filename);
 			OutputStream ouputStream = null;
 			try {

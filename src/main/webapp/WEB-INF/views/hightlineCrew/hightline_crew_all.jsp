@@ -95,10 +95,11 @@ String basePath = request.getContextPath();
             <thead>
               <tr>
                 <th rowspan="2" class="text-center" style="vertical-align: middle;width:40px;">序号</th>
-                <th rowspan="2" class="text-center" style="vertical-align: middle">乘务交路</th>
-                <th rowspan="2" class="text-center" style="vertical-align: middle">车队组号</th>
-                <th rowspan="2" class="text-center" style="vertical-align: middle">经由铁路线</th>
                 <th rowspan="2" class="text-center" style="vertical-align: middle">乘务类型</th>
+                <th rowspan="2" class="text-center" style="vertical-align: middle">日期</th>
+                <th rowspan="2" class="text-center" style="vertical-align: middle">乘务交路</th>
+                <th rowspan="2" class="text-center" style="vertical-align: middle">乘务组编号</th>
+                <th rowspan="2" class="text-center" style="vertical-align: middle">经由铁路线</th>
                 <th colspan="3" class="text-center" style="vertical-align: middle">乘务员1</th>
                 <th colspan="3" class="text-center" style="vertical-align: middle">乘务员2</th>
                 <th rowspan="2" class="text-center" style="vertical-align: middle">路局</th>
@@ -117,10 +118,11 @@ String basePath = request.getContextPath();
             <tbody data-bind="foreach: hightLineCrewRows.rows">
               <tr>
                 <td data-bind=" text: ($index() + 1)"></td>
+                <td data-bind=" text: crewTypeName"></td>
+                <td data-bind=" text: crewDate"></td>
                 <td data-bind=" text: crewCross, attr:{title: crewCross}"></td>
                 <td data-bind=" text: crewGroup, attr:{title: crewGroup}"></td>
                 <td data-bind=" text: throughLine, attr:{title: throughLine}"></td>
-                <td data-bind=" text: crewTypeName"></td>
                 <td data-bind=" text: name1, attr:{title: name1}"></td>
                 <td data-bind=" text: tel1, attr:{title: tel1}"></td>
                 <td data-bind=" text: identity1, attr:{title: identity1}"></td>
