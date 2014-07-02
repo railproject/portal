@@ -40,6 +40,9 @@
                 /dwr/** = anon
                 /jbtcx/** = anon
                  /highLine/** = anon
+                /crew/page/** = anon
+                /plan/getFullStationInfo/** = anon
+                /crew/highline/** = anon
 				/default/transfer/planReviewLines = anon
 				/construction/** = anon
                 /** = authc
