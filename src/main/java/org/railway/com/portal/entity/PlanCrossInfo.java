@@ -46,7 +46,16 @@ public class PlanCrossInfo {
 		private int airCondition;
 		private int checkType;
 		
+		//highlinecross生成时需要
+		private int groupSerialNbr;
 		
+		
+		public int getGroupSerialNbr() {
+			return groupSerialNbr;
+		}
+		public void setGroupSerialNbr(int groupSerialNbr) {
+			this.groupSerialNbr = groupSerialNbr;
+		}
 		public String getCheckedBureau() {
 			return checkedBureau;
 		}

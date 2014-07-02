@@ -19,6 +19,7 @@ import org.joda.time.Duration;
 import org.joda.time.Interval;
 import org.joda.time.LocalDate;
 import org.joda.time.LocalTime;
+import org.joda.time.Minutes;
 import org.joda.time.Period;
 import org.joda.time.PeriodType;
 import org.joda.time.format.DateTimeFormat;
@@ -245,10 +246,71 @@ public class DateUtil {
 	}
 	
 	
+	/**
+	 * 计算两个时间的差值
+	 * @param dateStart 格式yyyy-MM-dd HH:mm:ss
+	 * @param dateStop 格式yyyy-MM-dd HH:mm:ss
+	 * @return
+	 */
+	public static int getBetweenMinite(String dateStart,String dateStop){
+		//String dateStart = "2012-01-14 09:30:58";
+	    //String dateStop = "2012-01-14 10:30:48";
+        int result = 0;
+	    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+	    Date d100 = null;
+	    Date d200 = null;
+
+	    try {
+	    	d100 = format.parse(dateStart);
+	    	d200 = format.parse(dateStop);
+
+	        DateTime dt100 = new DateTime(d100);
+	        DateTime dt200 = new DateTime(d200);
+
+	        result = Minutes.minutesBetween(dt100, dt200).getMinutes();
+	     } catch (Exception e) {
+	        e.printStackTrace();
+	     }
+           return result;
+	  }
+	
+	/**
+	 * 将yyyy-mm-dd格式转换成yyyyMMdd格式
+	 * @param day  yyyy-mm-dd
+	 * @return yyyyMMdd
+	 */
+	public static String getFormateDayShort(String day){
+		Date date = null;
+		try {
+			date = parseDate(day,defaultDatePattern1);
+		} catch (ParseException e) {
+			
+			//e.printStackTrace();
+		}
+		return format(date,defaultDatePattern2);
+	}
+	
+	/**
+	 * 时间格式转换
+	 * @param day  传入的日期
+	 * @param formateType formate格式字符串
+	 * @return yyyyMMdd
+	 */
+	public static String getFormateDayTime(String day,String formateType){
+		Date date = null;
+		try {
+			date = parseDate(day,formateType);
+		} catch (ParseException e) {
+			
+			//e.printStackTrace();
+		}
+		return format(date,defaultDatePattern2);
+	}
 	
 	public static void main(String[] args) {
 	
-		
+		System.err.println(getFormateDayShort("2014-04-12"));
 		/**
 		 * 1.构造一个时间
 		 */

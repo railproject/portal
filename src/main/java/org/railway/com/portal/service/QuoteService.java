@@ -73,7 +73,7 @@ public class QuoteService  {
 			
 			//全部处理完成
 			this.sendMsgService.sendMessage(message, pageUrl, "importPlanEnd");
-			System.err.println("message333==" + message);
+			//System.err.println("message333==" + message);
 			
 		}else if("plan.getInfo.begin".equals(messageType)){
 			//调用后台接口之前

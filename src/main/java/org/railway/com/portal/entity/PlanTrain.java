@@ -21,6 +21,7 @@ public class PlanTrain implements Serializable{
 	private String planTrainId;//PLAN_TRAIN_ID;
 	//车次
 	private String trainNbr;//TRAIN_NBR;
+	private int trainSort;
 	//始发站
 	private String startStn;//START_STN;
 	//终点站
@@ -42,6 +43,7 @@ public class PlanTrain implements Serializable{
 	private String endBureauFull;//终到局全称
 	private String startTimeStr;
 	private String endTimeStr;
+	private String groupSerialNbr;
 
 	private String startBureauFull;//始发局全称
 	private String jylj;//经由路局  如：“京,济,上”
@@ -49,7 +51,18 @@ public class PlanTrain implements Serializable{
 	private String operation;
 	
 	
-	
+	public int getTrainSort() {
+		return trainSort;
+	}
+	public void setTrainSort(int trainSort) {
+		this.trainSort = trainSort;
+	}
+	public String getGroupSerialNbr() {
+		return groupSerialNbr;
+	}
+	public void setGroupSerialNbr(String groupSerialNbr) {
+		this.groupSerialNbr = groupSerialNbr;
+	}
 	public String getRoutingBureauShortName() {
 		return routingBureauShortName;
 	}

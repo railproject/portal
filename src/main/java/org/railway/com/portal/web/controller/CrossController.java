@@ -389,6 +389,7 @@ public class CrossController {
 					 crossMap.put("jxgx", jxgx);
 					 crossMap.put("trains", trains);
 					 crossMap.put("crossName", trainInfo.getCrossName());
+					 crossMap.put("baseCrossId",trainInfo.getBaseCrossId() );
 					 dataList.add(crossMap);
 					 //组装坐标
 					 grid = getPlanLineGrid(stationList,trainInfo.getCrossStartDate(),trainInfo.getCrossEndDate());

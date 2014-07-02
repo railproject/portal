@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace必须指向Dao接口 -->
+<mapper namespace="highlineCrossDao">
+
+
+	
+  <resultMap id="trainSubInfo" type="org.railway.com.portal.entity.HighlineTrainRunLine">
+	        <id column="planTrainId" property="planTrainId"/>
+	        <result column="trainNbr" property="trainNbr"/>
+            <collection property="highlineTrainTimeList" resultMap="trainSubInfoTime"/>
+    </resultMap>
+ 
+    <resultMap id="trainSubInfoTime" type="org.railway.com.portal.entity.HighlineTrainRunLineTime">
+	        <id column="planTrainStnId" property="planTrainStnId"/>
+	        <result column="stnName" property="stnName"/>
+	        <result column="stnSort" property="stnSort"/>
+	        <result column="arrTime" property="arrTime"/>
+	        <result column="dptTime" property="dptTime"/>
+    </resultMap>
+  
+  <select id="getHighlineTrainTimeForHighlineCrossId"  parameterType="map" resultMap="trainSubInfo">
+  SELECT
+		B.PLAN_TRAIN_ID AS planTrainId,
+		C.TRAIN_NBR AS trainNbr,
+		C.PASS_BUREAU AS passBureau,
+		D.PLAN_TRAIN_STN_ID AS planTrainStnId,
+		D.STN_SORT AS stnSort,
+		D.STN_NAME AS stnName,
+		TO_CHAR(D.ARR_TIME,'yyyy-MM-dd hh24:mi:SS') AS ARRTIME,
+		TO_CHAR(D.DPT_TIME,'yyyy-MM-dd hh24:mi:SS') AS DPTTIME
+	FROM   HIGHLINE_CROSS A,HIGHLINE_CROSS_TRAIN B,PLAN_TRAIN C,PLAN_TRAIN_STN D
+	WHERE A.HIGHLINE_CROSS_ID = B.HIGHLINE_CROSS_ID
+		AND B.PLAN_TRAIN_ID = C.PLAN_TRAIN_ID 
+		AND C.PLAN_TRAIN_ID = D.PLAN_TRAIN_ID
+		AND A.HIGHLINE_CROSS_ID=#{highlineCrossId} 
+		ORDER BY B.TRAIN_SORT,D.STN_SORT
+  
+  </select>
+   <select id="getHighlineCrossList" parameterType="map" resultType="org.railway.com.portal.entity.HighlineCrossInfo">
+      SELECT
+        HIGHLINE_CROSS_ID AS highlineCrossId,
+		PLAN_CROSS_ID AS planCrossId,
+		CROSS_START_DATE AS crossStartDate,
+		CROSS_END_DATE AS crossEndDate,
+		CROSS_START_STN AS crossStartStn,
+        CROSS_END_STN AS crossEndStn,
+		CROSS_NAME AS crossName,
+		SPARE_FLAG AS spareFlag,
+		RELEVANT_BUREAU AS relevantBureau,
+		TOKEN_VEH_BUREAU AS tokenVehBureau,
+		TOKEN_VEH_DEPT AS tokenVehDept,
+		TOKEN_VEH_DEPOT AS tokenVehDepot,
+		TOKEN_PSG_BUREAU AS tokenPsgBureau ,
+		TOKEN_PSG_DEPT AS tokenPsgDept,
+		CRH_TYPE AS crhType,
+		VEHICLE1 AS vehicle1,
+		VEHICLE2 AS vehicle2,
+		NOTE AS note,
+		CREAT_PEOPLE AS creatPeople,
+		CREAT_PEOPLE_ORG AS creatPeopleOrg ,
+		CREAT_TIME AS creatTime,
+		CHECK_TYPE AS checkType,
+		CHECK_PEOPLE AS checkPeople,
+		CHECK_PEOPLE_ORG AS checkPeopleOrg,
+		CHECK_TIME AS checkTime
+      FROM HIGHLINE_CROSS WHERE CROSS_START_DATE = #{crossStartDate}
+   </select>
+
+   <select id="getHighlineCrossTrainList"  parameterType="map" resultType="org.railway.com.portal.entity.HighLineCrossTrainInfo">
+   SELECT  
+        HIGHLINE_TRAIN_ID AS highlineTrainId,
+		HIGHLINE_CROSS_ID AS highlineCrossId,
+		PLAN_TRAIN_ID AS planTrainId,
+		TRAIN_SORT AS trainSort,
+		TRAIN_NBR AS trainNbr,
+		RUN_DATE AS runDate
+   FROM HIGHLINE_CROSS_TRAIN  WHERE HIGHLINE_CROSS_ID =#{highlineCrossId}
+   </select>
+   
+   <select id="getHighlineCrossTrainBaseInfoList"  parameterType="string" resultType="org.railway.com.portal.entity.HighlineCrossTrainBaseInfo">
+   SELECT 
+		B.TRAIN_NBR As trainNbr,
+		C.START_STN As startStn,
+		TO_CHAR(C.START_TIME,'yyyy-MM-dd hh24:mi:SS') AS startTime,
+		C.END_STN As endStn,
+		TO_CHAR(C.END_TIME,'yyyy-MM-dd hh24:mi:SS') AS endTime
+		FROM HIGHLINE_CROSS A,HIGHLINE_CROSS_TRAIN B,PLAN_TRAIN C
+	WHERE A.HIGHLINE_CROSS_ID=B.HIGHLINE_CROSS_ID AND B.PLAN_TRAIN_ID=C.PLAN_TRAIN_ID AND A.HIGHLINE_CROSS_ID=#{highlineCrossId}
+   
+   </select>
+   
+   <delete id="deleteHighlienCrossTrainForHighlineCrossId" parameterType="map">
+    DELETE  FROM HIGHLINE_CROSS_TRAIN 
+    WHERE HIGHLINE_CROSS_ID in (${highlineCrossIds}) 
+   </delete>
+   
+   
+  <delete id="deleteHighlienCrossForHighlineCrossId" parameterType="map">
+    DELETE  FROM HIGHLINE_CROSS 
+    WHERE HIGHLINE_CROSS_ID in (${highlineCrossIds}) 
+  </delete>  
+  
+  <update id="updateHighLineVehicle" parameterType="map">
+  UPDATE HIGHLINE_CROSS 
+  SET
+    <choose>
+      <when test="vehicle1 == null">VEHICLE1 = '',</when>
+      <otherwise>VEHICLE1 = #{vehicle1},</otherwise>
+    </choose>
+    <choose>
+      <when test="vehicle2 == null">VEHICLE2 = ''</when>
+      <otherwise>VEHICLE2 = #{vehicle2}</otherwise>
+    </choose>  
+    WHERE HIGHLINE_CROSS_ID = #{highlineCrossId}
+  </update>
+   
+   <update id="updateHiglineCheckInfo" parameterType="map" >
+   UPDATE HIGHLINE_CROSS 
+     SET
+        CHECK_TYPE=${checkType},
+		CHECK_PEOPLE=#{checkPeople},
+		CHECK_PEOPLE_ORG=#{checkPeopleOrg},
+		CHECK_TIME=sysdate
+  
+     WHERE HIGHLINE_CROSS_ID IN (${highlineCrossIds})
+   
+   </update>
+</mapper>
