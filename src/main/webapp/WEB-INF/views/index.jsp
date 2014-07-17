@@ -121,13 +121,13 @@
     <nav class="Navigation">
         <ul>
             <li>
-                <a href="http://10.1.186.116:8090/dashboard/kanban/kanban.html" id="kanban" target="contentFrame" class="menu_one" style="cursor:default;"><i class="fa fa-list-ol"></i>计划看板 </a>
+                <a href="http://10.1.186.115:8090/dashboard/kanban/kanban.html" id="kanban" target="contentFrame" class="menu_one" style="cursor:default;"><i class="fa fa-list-ol"></i>计划看板 </a>
             </li>
             <li>
                 <a target="contentFrame" class="menu_one"><i class="fa fa-bar-chart-o"></i>计划查询<i class="fa fa-caret-down pull-right"></i></a>
                 <ul>
-                    <li><a href="http://10.1.186.116:8090/dashboard/kanban/railline_sf.html" target="contentFrame"><i class="fa fa-level-down"></i>始发统计</a></li>
-                    <li><a href="http://10.1.186.116:8090/dashboard/kanban/railline_jr.html" target="contentFrame"><i class="fa fa-level-up"></i>接入统计</a></li>
+                    <li><a href="http://10.1.186.115:8090/dashboard/kanban/railline_sf.html" target="contentFrame"><i class="fa fa-level-down"></i>始发统计</a></li>
+                    <li><a href="http://10.1.186.115:8090/dashboard/kanban/railline_jr.html" target="contentFrame"><i class="fa fa-level-up"></i>接入统计</a></li>
                     <li><a href="${ctx}/default/transfer/planReviewLines" target="contentFrame"><i class="fa fa-search"></i>明细查询</a></li>
                 </ul>
             </li>
@@ -135,7 +135,8 @@
                 <a target="contentFrame" class="menu_one"><i class="fa fa-list-ul"></i>基本图<i class="fa fa-caret-down pull-right"></i></a>
                 <ul>
                     <li><a href="http://10.1.191.154/WebReport/ReportServer?reportlet=JHPT%2FJHPT_JBT%2Fjbt_kxlstj.cpt" target="contentFrame"><i class="fa fa-bar-chart-o"></i>基本图汇总统计</a></li>
-                    <li><a href="${ctx}/jbtcx" target="contentFrame"><i class="fa fa-search"></i>基本图明细查询</a></li>
+                    <%--<li><a href="${ctx}/jbtcx" target="contentFrame"><i class="fa fa-search"></i>基本图明细查询</a></li>--%>
+                    <li><a href="http://10.1.132.149:8080/trainline-templates.jsp" target="_blank"><i class="fa fa-search"></i>开行方案</a></li>
                 </ul>
             </li>
             <li><a href="http://10.1.191.99/jszl/htmlFrame/jszlIndex.htm" target="contentFrame" class="menu_one"><i class="fa fa-file"></i>技术资料 </a></li>
