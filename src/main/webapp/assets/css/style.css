@@ -1100,14 +1100,14 @@ z-index: 1;
 /*��*/
 @media all and (min-width:1280px) {
 	.Iframe_body {
-		padding: 12px 5%;
+		padding: 12px 5px 5px 5px;
 	}
 	.sidebar {
 		top: 0;
-		padding: 0px 5%;
+		padding: 0px 1%;
 	}
 	.header {
-		padding: 0 5%;
+		padding: 0 1%;
 	}
 	nav .menu_one {
 		padding: 9px 12px;
@@ -1146,7 +1146,9 @@ z-index: 1;
 .paddingtop30 {
 	padding-top: 30px;
 }
-
+.paddingtop100 {
+    padding-top: 100px;
+}
 .paddingtop0 {
 	padding-top: 0px;
 }
@@ -1320,3 +1322,28 @@ z-index: 1;
 	display: block;
 }
 /*多级菜单     end*/
+
+.ui-dialog .ui-widget .ui-widget-content .ui-corner-all .ui-front .ui-draggable .ui-resizable {
+    z-index: 999;
+}
+.marginleft5 {
+    margin-left: 5px;
+}
+.marginright5 {
+    margin-right: 5px;
+}
+.margintop5 {
+    margin-top: 5px;
+}
+.margintop10 {
+    margin-top: 10px;
+}
+.marginleft10 {
+    margin-left: 10px;
+}
+.marginright10 {
+    margin-right: 10px;
+}
+.marginbottom5 {
+    margin-bottom: 5px;
+}

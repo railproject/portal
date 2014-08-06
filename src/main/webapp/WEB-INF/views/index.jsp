@@ -69,9 +69,13 @@
             $("#indexLoginBtn").click(function(){
                 window.location = "${ctx}/login";
             });
+            $("#jbtcxBtn").click(function() {
+                window.open("http://10.1.132.149:8080/trainline-templates.jsp");
+            });
             $("#kyjhBtn").click(function() {
                 window.open("http://10.1.186.115:8090/trainplan/login");
             });
+            
             $("#sgjhBtn").click(function() {
                 window.open("http://10.1.191.135:7003/sgdd");
             });
@@ -85,6 +89,7 @@
         <div class="pull-left logo_name"><img src="${ctx}/assets/img/login-logo.png" height="50px"> </div>
         <div class="col-md-4 col-sm-4 col-xs-4 pull-right">
             <div class="pull-right" style="margin-top:5px;">
+                <button id="jbtcxBtn" type="button" class="btn btn-success paddingleftright5" style="padding:6px 13px;border-radius: 4px; margin-right: 25px">铁总集中<br/>基本图库</button>
                 <button id="kyjhBtn" type="button" class="btn btn-success paddingleftright5" style="padding:6px 13px;border-radius: 4px; margin-right: 25px">路局客运<br/>计划编制</button>
                 <button id="sgjhBtn" type="button" class="btn btn-success paddingleftright5" style="padding:6px 13px;border-radius: 4px;">路局施工<br/>计划报告</button>
                 <%--
@@ -121,36 +126,30 @@
     <nav class="Navigation">
         <ul>
             <li>
-                <a href="http://10.1.186.117:8080/dashboard/kanban/kanban.html" id="kanban" target="contentFrame" class="menu_one" style="cursor:default;"><i class="fa fa-list-ol"></i>计划看板 </a>
+                <a href="http://10.1.186.116:8090/dashboard/kanban/kanban.html" id="kanban" target="contentFrame" class="menu_one" style="cursor:default;"><i class="fa fa-list-ol"></i>首页（看板）</a>
             </li>
             <li>
-                <a target="contentFrame" class="menu_one"><i class="fa fa-bar-chart-o"></i>计划查询<i class="fa fa-caret-down pull-right"></i></a>
-                <ul>
-                    <li><a href="http://10.1.186.115:8090/dashboard/kanban/railline_sf.html" target="contentFrame"><i class="fa fa-level-down"></i>始发统计</a></li>
-                    <li><a href="http://10.1.186.115:8090/dashboard/kanban/railline_jr.html" target="contentFrame"><i class="fa fa-level-up"></i>接入统计</a></li>
-                    <li><a href="${ctx}/default/transfer/planReviewLines" target="contentFrame"><i class="fa fa-search"></i>明细查询</a></li>
-                </ul>
+                <a href="http://10.1.190.224/DynaTrainGraph/DynaTrainGraph2.html?src=1" target="_blank" class="menu_one" style="cursor:default;"><i class="fa fa-list-ol"></i>计划运行图</a>
             </li>
             <li>
-                <a target="contentFrame" class="menu_one"><i class="fa fa-list-ul"></i>基本图<i class="fa fa-caret-down pull-right"></i></a>
+                <a target="contentFrame" class="menu_one"><i class="fa fa-bar-chart-o"></i>日计划统计<i class="fa fa-caret-down pull-right"></i></a>
                 <ul>
-                    <li><a href="http://10.1.191.154/WebReport/ReportServer?reportlet=JHPT%2FJHPT_JBT%2Fjbt_kxlstj.cpt" target="contentFrame"><i class="fa fa-bar-chart-o"></i>基本图汇总统计</a></li>
-                    <%--<li><a href="${ctx}/jbtcx" target="contentFrame"><i class="fa fa-search"></i>基本图明细查询</a></li>--%>
-                    <li><a href="http://10.1.132.149:8080/trainline-templates.jsp" target="_blank"><i class="fa fa-search"></i>开行方案</a></li>
+                    <li><a href="http://10.1.191.154/WebReport/ReportServer?reportlet=LCKXJH/TDB_KXLS.cpt&op=view" target="contentFrame"><i class="fa fa-level-down"></i>列车开行台帐</a></li>
+                    <li><a href="http://10.1.191.135:7001/WebReport1/ReportServer?reportlet=KYJH%2Fkyjh_all.cpt&op=view" target="contentFrame"><i class="fa fa-level-down"></i>客车开行台帐</a></li>
+                    <!-- <li><a href="http://10.1.186.115:8090/dashboard/kanban/railline_sf.html" target="contentFrame"><i class="fa fa-level-down"></i>始发统计</a></li>
+                    <li><a href="http://10.1.186.115:8090/dashboard/kanban/railline_jr.html" target="contentFrame"><i class="fa fa-level-up"></i>接入统计</a></li> -->
+                    <li><a href="${ctx}/default/transfer/planReviewLines" target="contentFrame"><i class="fa fa-search"></i>日计划明细查询</a></li>
                 </ul>
             </li>
-            <li><a href="http://10.1.191.99/jszl/htmlFrame/jszlIndex.htm" target="contentFrame" class="menu_one"><i class="fa fa-file"></i>技术资料 </a></li>
 
             <%--<shiro:authenticated>--%>
-                <li><a target="contentFrame" class="menu_one"><i class="fa fa-road"></i>客运列车<i class="fa fa-caret-down pull-right"></i> </a>
+                <li><a target="contentFrame" class="menu_one"><i class="fa fa-road"></i>客运日计划<i class="fa fa-caret-down pull-right"></i> </a>
                     <ul class="second-menu" style="width:200px">
                         <li style="width: 100%;"><a href="${ctx}/default/transfer/planReviewAll" target="contentFrame" style="width: 100%;"><i class="fa fa-list-ol"></i>开行计划汇总统计</a></li>
                         <li style="width: 100%;"><a href="${ctx}/highLine/vehicleSearch" target="contentFrame" style="width: 100%;"><i class="fa fa-list-ol"></i>高铁交路/车底计划查询</a></li>
                         <li style="width: 100%;"><a href="${ctx}/crew/page/all" target="contentFrame" style="width: 100%;"><i class="fa fa-external-link"></i>高铁乘务计划查询</a></li>
                     </ul>
                 </li>
-                <li><a href="${ctx}/default/transfer/planConstruction" class="menu_one" target="contentFrame"><i class="fa fa-truck"></i>货运列车 </a></li>
-                <li><a href="http://10.1.191.135:7003/sgdd" target="_blank" class="menu_one"><i class="fa fa-gavel"></i>施工维修 </a></li>
 
 
                 <!-- 消息测试  发布时需要注释 -->
@@ -162,6 +161,16 @@
                 </li> --%>
 
             <%--</shiro:authenticated>--%>
+            
+            
+            <li>
+                <a target="contentFrame" class="menu_one"><i class="fa fa-list-ul"></i>基本图查询<i class="fa fa-caret-down pull-right"></i></a>
+                <ul>
+                    <li><a href="${ctx}/jbtcx" target="contentFrame"><i class="fa fa-search"></i>查询时刻表</a></li>
+                </ul>
+            </li>
+            
+            
         </ul>
     </nav>
 </div>

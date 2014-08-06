@@ -120,7 +120,7 @@ var currentUserBureau = "";
 									<tbody style="padding:0">
 										 <tr style="padding:0">
 										   <td colspan="11" style="padding:0">
-												 <div id="plan_train_panel_body" style="height: 500px; overflow-y:auto;"> 
+												 <div id="plan_train_panel_body" style="height: 700px; overflow-y:auto;"> 
 													<table class="table table-bordered table-striped table-hover" >
 														<tbody data-bind="foreach: highLineCrossRows">
 															<tr data-bind=" visible: visiableRow, style:{color: $parent.currentCross().highLineCrossId == highLineCrossId ? 'blue':''}" >
