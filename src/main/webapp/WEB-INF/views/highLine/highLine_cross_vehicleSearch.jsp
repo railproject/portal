@@ -72,7 +72,7 @@ var currentUserBureau = "";
 	
 	<ol class="breadcrumb">
 		<span><i class="fa fa-anchor"></i>当前位置:</span>
-		<li><a href="#">高铁交路/车底计划查询</a></li>
+		<li><a href="javascript:void(0);">客运日计划 -> 高铁交路/车底计划查询</a></li>
 	</ol>  
 	    <div class="row" style="margin: 10px 10px 10px 10px;">   
 		    <!--分栏框开始-->

@@ -110,7 +110,6 @@ var RunPlanCanvasPage = function(cross) {
 	 */
 	function drawJlLine() {
 		var booleanDrawJlStartAndEnd = true;	//是否绘制交路起止标记
-		console.log("--------------------------------");
 		for (var i=0, _len=canvasData.jlData.length; i<_len; i++) {
 			var _obj = canvasData.jlData[i];
 			var _color = getRandomColor();
@@ -179,9 +178,6 @@ var RunPlanCanvasPage = function(cross) {
 		
 		this.clearChart();	//清除画布
 		//context.beginPath();
-		console.dir("~!!!!!!!!!!!!");
-		console.dir(canvasData);
-		console.dir("~!!!!!!!!!!!!");
 		myCanvasComponent = new MyCanvasComponent(context, canvasData.grid.days, canvasData.grid.crossStns,scale);
 		//绘制客运开行计划
 		//1.绘制网格

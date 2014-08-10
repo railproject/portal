@@ -21,7 +21,6 @@ var MyCanvas = function(){
 	};
 	
 	this.drawGraph = function (contextParam, scale) {
-		console.dir(canvasData);
 		var booleanDrawJlStartAndEnd = true;	//是否绘制交路起止标记
 		var myCanvasComponent = new MyCanvasComponent(contextParam, canvasData.grid.days, canvasData.grid.crossStns, scale);
 		//1.绘制网格

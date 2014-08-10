@@ -3,7 +3,6 @@ $(function() {
 	var cross = new CrossModel();
 	ko.applyBindings(cross); 
 	
-	console.dir(canvasData); 
 	cross.init();   
 });
 
@@ -53,13 +52,12 @@ function CrossModel() {
 	
 	
 	self.trainRunPlanChange = function(row, event){ 
-		console.log(row);
-		console.log(event.target.name);
-		console.log("trainRunPlanChange test");
+//		console.log(row);
+//		console.log(event.target.name);
+//		console.log("trainRunPlanChange test");
 	};
 	
 	self.dragRunPlan = function(n,event){
-		console.log(event.target);
 		$(event.target).dialog("open");
 		
 	};
@@ -86,7 +84,6 @@ function CrossModel() {
 		};
 	};
 	self.setCurrentTrain = function(train){
-		console.log(train)
 		self.currentTrain(train); 
 	};
 	
@@ -145,11 +142,9 @@ function CrossModel() {
 	};
 	self.selectCross = function(row){
 //		self.crossAllcheckBox();
-		console.log(row.selected());
 		if(row.selected() == 0){
 			self.crossAllcheckBox(1);
 			$.each(self.crossRows.rows(), function(i, crossRow){ 
-				console.log("==="+ crossRow.selected());
 				if(crossRow.selected() != 1 && crossRow != row){
 					self.crossAllcheckBox(0);
 					return false;
@@ -565,7 +560,6 @@ function CrossModel() {
 	};
 	
 	self.showCrossMapDlg = function(){ 
-		console.log(self.currentCross().crossId);
 		if(!self.currentCross().crossId || self.currentCross().crossId == ''){
 			return;
 		}
@@ -587,7 +581,6 @@ function CrossModel() {
 	};
 	
 	self.showTrainTimes = function(row) {
-		console.log(row);
 		self.currentTrain(row);
 		self.runPlanCanvasPage.reDrawByTrainNbr(row.trainNbr);
 		self.stns.remove(function(item){
@@ -609,7 +602,6 @@ function CrossModel() {
 					trainId : row.baseTrainId
 				}),
 				success : function(result) {  
-					console.log(result) 
 					if (result != null && result != "undefind" && result.code == "0") {  
 						row.loadTimes(result.data);  
 						$.each(row.times(), function(i, n){
@@ -757,7 +749,6 @@ function CrossModel() {
 					crossId : row.crossId  
 				}),
 				success : function(result) {    
-					console.log(result);
 					if (result != null && result != "undefind" && result.code == "0") {
 						if (result.data !=null) {   
 							canvasData = {
@@ -766,7 +757,6 @@ function CrossModel() {
 							};
 							lineList = [];
 							jlList = [];
-							console.log("-------------------------111-----------------------");
 							self.runPlanCanvasPage.drawChart({startX:60, yScale: 2});
 							
 						}

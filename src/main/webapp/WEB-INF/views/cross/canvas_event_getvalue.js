@@ -100,7 +100,6 @@ var RunPlanCanvasPage = function() {
 		for (var i=0, _len=canvasData.jlData.length; i<_len; i++) {
 			var _obj = canvasData.jlData[i];
 			var _color = getRandomColor();
-			console.log("color="+_color);
 			var _lenJlTrain=_obj.trains.length;
 			
 			//2.1 绘制交路列车运行线
@@ -195,7 +194,6 @@ var currentYScale = 1;	//y轴缩放比例
 var currentYScaleCount = 1;//y轴放大总倍数
 
 $(function(){
-	console.dir(canvasData);
 	//x放大2倍
 	$("#canvas_event_btn_x_magnification").click(function(){
 		if (currentXScaleCount == 32) {

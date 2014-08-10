@@ -1,6 +1,5 @@
 
 $(function(){
-	console.dir(canvasData);
 	var canvas = document.getElementById("trainplan_canvas");
 	var context = canvas.getContext('2d');
 	var myCanvasComponent = new MyCanvasComponent(context, canvasData.grid.days, canvasData.grid.crossStns);

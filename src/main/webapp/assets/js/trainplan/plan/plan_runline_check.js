@@ -21,11 +21,9 @@ function SelectCheckModle(){
 	 
 	self.selectCross = function(row){
 //		self.crossAllcheckBox();
-		console.log(row.selected());
 		if(row.selected() == 0){
 			self.crossAllcheckBox(1);
 			$.each(self.crossRows.rows(), function(i, crossRow){ 
-				console.log("==="+ crossRow.selected());
 				if(crossRow.selected() != 1 && crossRow != row){
 					self.allcheckBox(0);
 					return false;
@@ -154,7 +152,6 @@ function ApplicationModel() {
 					rownumend : endIndex
 				}),
 				success : function(result) {  
-					console.log(result) 
 					if (result != null && result != "undefind" && result.code == "0") {  
 							if (result.data !=null) {   
 								var rows = [];
@@ -202,7 +199,6 @@ function ApplicationModel() {
 	self.trainRows = new PageModle(50, self.loadTrainsForPage);
 	 
 	self.showTrainTimes = function(row) {
-		console.log(row);
 		self.currentTrain(row);
 		self.trainLines.remove(function(item){
 			return true;
@@ -226,7 +222,6 @@ function ApplicationModel() {
 					trainId : row.id
 				}),
 				success : function(result) {  
-					console.log(result) 
 					if (result != null && result != "undefind" && result.code == "0") {  
 						row.loadTimes(result.data);  
 						$.each(row.times(), function(i, n){
@@ -251,7 +246,6 @@ function ApplicationModel() {
 	};  
 	
 	self.fuzzyChange = function(){
-		console.log(self.searchModle().fuzzyFlag())
 		if(self.searchModle().fuzzyFlag() == 0){
 			self.searchModle().fuzzyFlag(1);
 		}else{
@@ -282,7 +276,6 @@ function searchModle(){
 	
 	self.loadBureau = function(bureaus){   
 		for ( var i = 0; i < bureaus.length; i++) {   
-			console.log(bureaus[i]);
 			self.startBureaus.push(new BureausRow(bureaus[i]));  
 			self.endBureaus.push(new BureausRow(bureaus[i]));
 		} 
@@ -355,7 +348,6 @@ function GetDateDiff(data)
 };
 function TrainRow(data) {   
 	var self = this;  
-	console.log(data)
 	self.id = data.planTrainId;
 	self.name = data.trainNbr; 
 	self.times = ko.observableArray();  

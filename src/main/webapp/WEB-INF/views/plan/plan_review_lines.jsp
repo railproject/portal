@@ -15,7 +15,7 @@ String basePath = request.getContextPath();
 
 <ol class="breadcrumb">
   <span><i class="fa fa-anchor"></i>当前位置：</span>
-  <li><a href="#">客运运行线查询</a></li>
+  <li><a href="javascript:void(0);">日计划统计 -> 日计划明细查询</a></li>
 </ol> 
   <div class="pull-right" style="width:550px;"> 
     <!--分栏框开始-->

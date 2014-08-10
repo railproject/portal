@@ -97,9 +97,9 @@ function CrossModel() {
 	
 	
 	self.trainRunPlanChange = function(row, event){ 
-		console.log(row);
-		console.log(event.target.name);
-		console.log("trainRunPlanChange test");
+//		console.log(row);
+//		console.log(event.target.name);
+//		console.log("trainRunPlanChange test");
 	};
 	
 	self.dragRunPlan = function(n,event){

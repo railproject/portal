@@ -5,9 +5,9 @@
 function importPlanBegin(message) {
 	 var obj = JSON.parse(message);
 	 console.dir(obj);
-	 console.log('~~~~~~~~~~~ 收到计划全部开始事件:'+obj.rundate);
-	 console.log('~~~~~~~~~~~ 收到计划全部开始事件:'+obj.traincount);
-	 console.log('~~~~~~~~~~~ 收到计划全部开始事件:'+obj.dayindex);
+//	 console.log('~~~~~~~~~~~ 收到计划全部开始事件:'+obj.rundate);
+//	 console.log('~~~~~~~~~~~ 收到计划全部开始事件:'+obj.traincount);
+//	 console.log('~~~~~~~~~~~ 收到计划全部开始事件:'+obj.dayindex);
 //	 console.log('~~~~~~~~~~~ 收到计划全部开始事件:'+JSON.parse(message));
 	$("#plan_view_label_planCurrentStatus").text("正在拼命加载数据，请耐心等待......");//界面顶端显示
 }

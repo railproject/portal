@@ -14,7 +14,7 @@ String basePath = request.getContextPath();
 
 <ol class="breadcrumb">
   <span><i class="fa fa-anchor"></i>当前位置：</span>
-  <li><a href="#">开行计划汇总</a></li>
+  <li><a href="javascript:void(0);">客运日计划 -> 开行计划汇总统计</a></li>
 </ol>
 
 

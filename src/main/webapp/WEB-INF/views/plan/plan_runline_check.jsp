@@ -57,7 +57,7 @@ var basePath = "<%=basePath %>";
 
 <ol class="breadcrumb">
   <span><i class="fa fa-anchor"></i>当前位置：</span>
-  <li><a href="#">基本图查询</a></li>
+  <li><a href="javascript:void(0);">基本图查询 -> 查询时刻表</a></li>
 </ol> 
 <div class="pull-left" style="width:63%;"> 
     <!--分栏框开始-->

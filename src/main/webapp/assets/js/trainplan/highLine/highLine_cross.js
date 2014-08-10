@@ -153,7 +153,6 @@ function CrossModel() {
 		var currentCorss = self.selectedActiveHighLineCrossRows()[0]; 
 		var acvtiveHighLineCrosses = self.acvtiveHighLineCrosses();
 		for(var i = 0 ; i < acvtiveHighLineCrosses.length; i++){
-			console.log(currentCorss);
 			if(acvtiveHighLineCrosses[i] == currentCorss){ 
 				if(i > 0){ 
 					var temp = acvtiveHighLineCrosses[i - 1];
@@ -168,7 +167,6 @@ function CrossModel() {
 		var currentCorss = self.selectedActiveHighLineCrossRows()[0]; 
 		var acvtiveHighLineCrosses = self.acvtiveHighLineCrosses();
 		for(var i = 0 ; i < acvtiveHighLineCrosses.length; i++){
-			console.log(currentCorss);
 			if(acvtiveHighLineCrosses[i] == currentCorss){ 
 				if(i < acvtiveHighLineCrosses.length - 1){  
 					var temp = acvtiveHighLineCrosses[i + 1];
@@ -402,9 +400,8 @@ function CrossModel() {
 	};
 	
 	self.trainRunPlanChange = function(row, event){ 
-		console.log(row);
-		console.log(event.target.name);
-		console.log("trainRunPlanChange test");
+//		console.log(event.target.name);
+//		console.log("trainRunPlanChange test");
 	};
 	
 	self.dragRunPlan = function(n,event){
