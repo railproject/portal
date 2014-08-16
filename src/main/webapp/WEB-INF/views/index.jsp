@@ -70,7 +70,7 @@
                 window.location = "${ctx}/login";
             });
             $("#jbtcxBtn").click(function() {
-                window.open("http://10.1.132.149:8080/trainline-templates.jsp");
+                window.open("http://10.1.190.229:8080/trainline-templates.jsp");
             });
             $("#kyjhBtn").click(function() {
                 window.open("http://10.1.186.115:8090/trainplan/login");

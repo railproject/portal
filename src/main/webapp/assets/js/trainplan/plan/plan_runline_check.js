@@ -184,11 +184,11 @@ function ApplicationModel() {
 						 
 						 
 					} else {
-						showErrorDialog("获取车底失败");
+						showErrorDialog("查询失败");
 					};
 				},
 				error : function() {
-					showErrorDialog("获取车底失败");
+					showErrorDialog("查询失败");
 				},
 				complete : function(){
 					commonJsScreenUnLock();
